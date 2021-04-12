@@ -1,0 +1,17 @@
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\bin\Debug\netcoreapp3.1\ProductControl.exe
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\bin\Debug\netcoreapp3.1\ProductControl.deps.json
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\bin\Debug\netcoreapp3.1\ProductControl.runtimeconfig.json
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\bin\Debug\netcoreapp3.1\ProductControl.runtimeconfig.dev.json
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\bin\Debug\netcoreapp3.1\ProductControl.dll
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\bin\Debug\netcoreapp3.1\ProductControl.pdb
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.csprojAssemblyReference.cache
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.Form1.resources
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.csproj.GenerateResource.cache
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.AssemblyInfoInputs.cache
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.AssemblyInfo.cs
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.csproj.CoreCompileInputs.cache
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.dll
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.pdb
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.genruntimeconfig.cache
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.CreateFolderForm.resources
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.RenameForm.resources
