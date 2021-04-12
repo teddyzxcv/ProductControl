@@ -71,8 +71,11 @@ namespace ProductControl
             {
                 foreach (XmlNode item in WarehouseList)
                 {
-                    Folder folder = new Folder(item.Attributes["Name"].Value, null);
-                    folder.ElementsList = LoadFolderList(item.SelectNodes("Folder").Cast<XmlNode>().ToList(), folder);
+                    Folder folder = new Folder(item.Attributes["Name"].Value, null, (Folder.FolderType)Enum.Parse(typeof(Folder.FolderType), item.Attributes["Type"].Value));
+                    if (folder.Type == Folder.FolderType.FolderFolder)
+                        folder.ElementsList = LoadFolderList(item.SelectNodes("Folder").Cast<XmlNode>().ToList(), folder);
+                    else if (folder.Type == Folder.FolderType.ProductFolder)
+                        folder.ElementsList = LoadProductList(item.SelectNodes("Product").Cast<XmlNode>().ToList(), folder);
                     Output.Add(folder);
                 }
             }
@@ -84,9 +87,23 @@ namespace ProductControl
             List<Elements> Output = new List<Elements>();
             for (int i = 0; i < nodes.Count; i++)
             {
-                Folder fol = new Folder(nodes[i].Attributes["Name"].Value, parent);
-                fol.ElementsList = LoadFolderList(nodes[i].SelectNodes("Folder").Cast<XmlNode>().ToList(), parent);
+                Folder fol = new Folder(nodes[i].Attributes["Name"].Value, parent, (Folder.FolderType)Enum.Parse(typeof(Folder.FolderType), nodes[i].Attributes["Type"].Value));
+                if (fol.Type == Folder.FolderType.FolderFolder)
+                    fol.ElementsList = LoadFolderList(nodes[i].SelectNodes("Folder").Cast<XmlNode>().ToList(), fol);
+                else if (fol.Type == Folder.FolderType.ProductFolder)
+                    fol.ElementsList = LoadProductList(nodes[i].SelectNodes("Product").Cast<XmlNode>().ToList(), fol);
                 Output.Add(fol);
+            }
+            return Output;
+        }
+        public static List<Elements> LoadProductList(List<XmlNode> nodes, Folder parent)
+        {
+            List<Elements> Output = new List<Elements>();
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                Product pro = new Product(nodes[i].Attributes["Name"].Value, nodes[i].Attributes["Article"].Value, int.Parse(nodes[i].Attributes["Remain"].Value)
+                    , int.Parse(nodes[i].Attributes["Price"].Value), nodes[i].Attributes["Description"].Value, nodes[i].Attributes["PathToPic"].Value, parent);
+                Output.Add(pro);
             }
             return Output;
         }
@@ -102,38 +119,101 @@ namespace ProductControl
             {
                 XmlElement newFolder = doc.CreateElement("Folder");
                 XmlAttribute FolderName = doc.CreateAttribute("Name");
+                XmlAttribute FolderType = doc.CreateAttribute("Type");
+                FolderType.Value = folList[i].Type.ToString();
                 FolderName.Value = folList[i].Name;
                 newFolder.SetAttributeNode(FolderName);
+                newFolder.SetAttributeNode(FolderType);
                 if (folList[i].ElementsList.Count != 0)
                 {
-                    XmlElement newTaskList = doc.CreateElement("Folder");
-                    SaveFolder(ref newTaskList, folList[i].ElementsList, doc);
-                    newFolder.AppendChild(newTaskList);
+                    if (folList[i].Type == Folder.FolderType.FolderFolder || folList[i].Type == Folder.FolderType.Default)
+                        SaveFolder(ref newFolder, folList[i], doc);
+                    if (folList[i].Type == Folder.FolderType.ProductFolder)
+                        SaveProduct(newFolder, folList[i], doc);
                 }
                 prjnodelist.AppendChild(newFolder);
             }
             doc.Save(PathToSaving);
         }
         /// <summary>
-        /// Save task.
+        /// Save Folder.
         /// </summary>
         /// <param name="node"></param>
         /// <param name="follist"></param>
         /// <param name="doc"></param>
-        private static void SaveFolder(ref XmlElement node, List<Elements> follist, XmlDocument doc)
+        private static void SaveFolder(ref XmlElement node, Folder fol, XmlDocument doc)
         {
-            for (int i = 0; i < follist.Count; i++)
+            for (int i = 0; i < fol.ElementsList.Count; i++)
             {
+                XmlElement newSubList = doc.CreateElement("Folder");
                 XmlAttribute taskName = doc.CreateAttribute("Name");
-                taskName.Value = follist[i].Name;
-                node.SetAttributeNode(taskName);
-                if (((Folder)(follist[i])).ElementsList.Count != 0)
+                XmlAttribute FolderType = doc.CreateAttribute("Type");
+                FolderType.Value = ((Folder)(fol.ElementsList[i])).Type.ToString();
+                taskName.Value = fol.ElementsList[i].Name;
+                newSubList.SetAttributeNode(taskName);
+                newSubList.SetAttributeNode(FolderType);
+                if (((Folder)(fol.ElementsList[i])).ElementsList.Count != 0)
                 {
-                    XmlElement newSubList = doc.CreateElement("Folder");
-                    SaveFolder(ref newSubList, ((Folder)(follist[i])).ElementsList, doc);
-                    node.AppendChild(newSubList);
+                    if (((Folder)(fol.ElementsList[i])).Type == Folder.FolderType.FolderFolder || ((Folder)(fol.ElementsList[i])).Type == Folder.FolderType.Default)
+                        SaveFolder(ref newSubList, (Folder)(fol.ElementsList[i]), doc);
+                    else
+                    if (((Folder)(fol.ElementsList[i])).Type == Folder.FolderType.ProductFolder)
+                        SaveProduct(newSubList, (Folder)(fol.ElementsList[i]), doc);
+
                 }
+                node.AppendChild(newSubList);
             }
+        }
+
+        public static DataTable DefaultDataTable()
+        {
+            DataTable result = new DataTable();
+            result.Columns.Add("Name");
+            result.Columns.Add("Article");
+            result.Columns.Add("Remaining");
+            result.Columns.Add("Price");
+            return result;
+        }
+        private static void SaveProduct(XmlElement node, Folder folder, XmlDocument doc)
+        {
+            for (int i = 0; i < folder.ElementsList.Count; i++)
+            {
+                XmlElement newProduct = doc.CreateElement("Product");
+                XmlAttribute prductName = doc.CreateAttribute("Name");
+                XmlAttribute prductArticle = doc.CreateAttribute("Article");
+                XmlAttribute prductPrice = doc.CreateAttribute("Price");
+                XmlAttribute prductRemain = doc.CreateAttribute("Remain");
+                XmlAttribute prductPathToPic = doc.CreateAttribute("PathToPic");
+                XmlAttribute prductDescp = doc.CreateAttribute("Description");
+                prductName.Value = ((Product)folder.ElementsList[i]).Name;
+                prductArticle.Value = ((Product)folder.ElementsList[i]).Article;
+                prductPrice.Value = ((Product)folder.ElementsList[i]).Price.ToString();
+                prductRemain.Value = ((Product)folder.ElementsList[i]).Remaining.ToString();
+                prductPathToPic.Value = ((Product)folder.ElementsList[i]).PathToPic;
+                prductDescp.Value = ((Product)folder.ElementsList[i]).Description;
+                newProduct.SetAttributeNode(prductName);
+                newProduct.SetAttributeNode(prductArticle);
+                newProduct.SetAttributeNode(prductPrice);
+                newProduct.SetAttributeNode(prductRemain);
+                newProduct.SetAttributeNode(prductPathToPic);
+                newProduct.SetAttributeNode(prductDescp);
+                node.AppendChild(newProduct);
+            }
+        }
+        public static DataTable ProcessProductFolder(Folder fol)
+        {
+            DataTable result = DefaultDataTable();
+            for (int i = 0; i < fol.ElementsList.Count; i++)
+            {
+                var row = result.NewRow();
+                var product = (Product)fol.ElementsList[i];
+                row["Name"] = product.Name;
+                row["Article"] = product.Article;
+                row["Remaining"] = product.Remaining;
+                row["Price"] = product.Price;
+                result.Rows.Add(row);
+            }
+            return result;
         }
 
     }

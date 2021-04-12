@@ -4,7 +4,13 @@
     <Compile Update="CreateFolderForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="CreateProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Productview.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="RenameForm.cs">

@@ -8,7 +8,6 @@ namespace ProductControl.ProductLib
     {
         public Folder Parent;
         public List<Elements> ElementsList = new List<Elements>();
-        public bool IsFolderfolder;
 
         public enum FolderType
         {
@@ -22,8 +21,14 @@ namespace ProductControl.ProductLib
         {
             Name = name;
             this.Parent = parent;
-            IsFolderfolder = false;
             Type = FolderType.Default;
+        }
+        public Folder(string name, Folder parent, FolderType type)
+        {
+            Name = name;
+            this.Parent = parent;
+            Type = type;
         }
     }
 }
+

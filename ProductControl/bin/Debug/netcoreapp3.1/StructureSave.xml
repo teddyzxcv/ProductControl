@@ -1,5 +1,10 @@
 <ProductControl>
   <Warehouse>
-    <Folder Name="asd" />
+    <Folder Name="Main23" Type="FolderFolder">
+      <Folder Name="123" Type="ProductFolder">
+        <Product Name="aa" Article="aaa" Price="0" Remain="0" PathToPic="default-image.png" Description="aaa" />
+        <Product Name="asdfaf" Article="asdfasdf" Price="4" Remain="2" PathToPic="default-image.png" Description="sdfadf" />
+      </Folder>
+    </Folder>
   </Warehouse>
 </ProductControl>
