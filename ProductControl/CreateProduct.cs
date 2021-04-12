@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ProductControl
 {
@@ -41,7 +42,8 @@ namespace ProductControl
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
             ofd.ShowDialog();
-            PathToPic = ofd.FileName;
+            PathToPic = Path.Combine(saveStructure.PathToSavePic, Directory.GetFiles(saveStructure.PathToSavePic).Length.ToString() + "." + Path.GetExtension(ofd.FileName));
+            File.Copy(ofd.FileName, PathToPic, true);
             this.pictureBox1.Image = Image.FromFile(ofd.FileName);
             this.pictureBox1.AutoSize = false;
             this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;

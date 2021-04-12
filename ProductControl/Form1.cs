@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ProductControl.ProductLib;
+using System.IO;
 
 namespace ProductControl
 {
@@ -109,6 +110,8 @@ namespace ProductControl
         {
             try
             {
+                if (treeView1.SelectedNode == null)
+                    throw new ArgumentException("Plz, select a folder!");
                 var parent = NodeSearch(treeView1.SelectedNode.FullPath);
                 if (treeView1.SelectedNode.FullPath != "Warehouse" && parent.Type == Folder.FolderType.ProductFolder)
                     throw new ArgumentException("Can't add folder to a product folder");
@@ -193,35 +196,40 @@ namespace ProductControl
 
         private void newProductStripMenuItem1_Click(object sender, EventArgs e)
         {
-            // try
-            // {
-            string selectednodepath = null;
-            if (this.treeView1.SelectedNode != null)
-                selectednodepath = this.treeView1.SelectedNode.FullPath;
-            if (this.treeView1.SelectedNode.Text == "Warehouse")
-                throw new ArgumentException("Can't add product straight to warehouse!!");
-            var parent = NodeSearch(treeView1.SelectedNode.FullPath);
-            if (parent.Type == Folder.FolderType.FolderFolder)
-                throw new ArgumentException("Can't add product to folderfolder!");
-            parent.Type = Folder.FolderType.ProductFolder;
-            CreateProduct cp = new CreateProduct();
-            if (cp.ShowDialog() != DialogResult.OK)
-                return;
-            Product pr = new Product(cp.Product_Name, cp.Article, cp.Remaining, cp.Price, cp.Description, cp.PathToPic, parent);
-            parent.ElementsList.Add(pr);
-            saveStructure.SaveWarehouseList(WareHouse);
-            RefreshTree();
-            RefreshDataGrid(selectednodepath);
-            // }
-            // catch (Exception er)
-            // {
-            //     MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            // };
+            try
+            {
+                if (treeView1.SelectedNode == null)
+                    throw new ArgumentException("Plz, select a folder!");
+                string selectednodepath = null;
+                if (this.treeView1.SelectedNode != null)
+                    selectednodepath = this.treeView1.SelectedNode.FullPath;
+                if (this.treeView1.SelectedNode.Text == "Warehouse")
+                    throw new ArgumentException("Can't add product straight to warehouse!!");
+                var parent = NodeSearch(treeView1.SelectedNode.FullPath);
+                if (parent.Type == Folder.FolderType.FolderFolder)
+                    throw new ArgumentException("Can't add product to folderfolder!");
+                parent.Type = Folder.FolderType.ProductFolder;
+                CreateProduct cp = new CreateProduct();
+                if (cp.ShowDialog() != DialogResult.OK)
+                    return;
+                if (parent.ElementsList.Select(e => e.Name).Contains(cp.Product_Name))
+                    throw new ArgumentException("No! No repeat!");
+                Product pr = new Product(cp.Product_Name, cp.Article, cp.Remaining, cp.Price, cp.Description, cp.PathToPic, parent, selectednodepath);
+                parent.ElementsList.Add(pr);
+                saveStructure.SaveWarehouseList(WareHouse);
+                RefreshTree();
+                RefreshDataGrid(selectednodepath);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             RefreshDataGrid(this.treeView1.SelectedNode.FullPath);
+
         }
         private void RefreshDataGrid(string selectednodepath)
         {
@@ -236,7 +244,9 @@ namespace ProductControl
                         this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
                     }
                     else
+                    {
                         this.dataGridView1.Visible = false;
+                    }
                 else
                     this.dataGridView1.Visible = false;
 
@@ -248,6 +258,105 @@ namespace ProductControl
                     this.treeView1.SelectedNode = sn;
             }
             this.dataGridView1.Refresh();
+            this.dataGridView1.Sort(this.dataGridView1.Columns["Name"], ListSortDirection.Ascending);
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                WareHouse = saveStructure.LoadWarehouseList();
+                if (e.RowIndex == -1) return;
+                DataGridView dgv = sender as DataGridView;
+                if (dgv.CurrentRow.Index > dgv.Rows.Count - 2)
+                    return;
+                string selectednodepath = null;
+                if (this.treeView1.SelectedNode != null)
+                    selectednodepath = this.treeView1.SelectedNode.FullPath;
+                if (dgv == null)
+                    return;
+                Folder fol = NodeSearch(this.treeView1.SelectedNode.FullPath);
+                if (dgv.CurrentRow.Selected && fol.Type == Folder.FolderType.ProductFolder)
+                {
+                    string name = (string)dgv.CurrentRow.Cells[0].Value;
+                    Product pr = (Product)fol.ElementsList.Find(e => e.Name == name);
+                    fol.ElementsList.Remove(pr);
+                    Productview pv = new Productview(name, pr.Article, pr.Remaining, pr.Price, pr.Description, pr.PathToPic);
+                    DialogResult rs = pv.ShowDialog();
+                    if (rs == DialogResult.No)
+                    {
+                        fol.ElementsList.Add(pr);
+                        return;
+                    }
+                    if (rs == DialogResult.Retry)
+                    {
+                        if (fol.ElementsList.Count == 0)
+                            fol.Type = Folder.FolderType.Default;
+                        saveStructure.SaveWarehouseList(WareHouse);
+                        RefreshTree();
+                        RefreshDataGrid(selectednodepath);
+                        return;
+                    }
+                    if (fol.ElementsList.Select(e => e.Name).Contains(pv.Product_Name))
+                        throw new ArgumentException("No! No repeat!");
+                    pr = new Product(pv.Product_Name, pv.Article, pv.Remaining, pv.Price, pv.Description, pv.PathToPic, fol, selectednodepath);
+                    fol.ElementsList.Add(pr);
+                    saveStructure.SaveWarehouseList(WareHouse);
+                    RefreshTree();
+                    RefreshDataGrid(selectednodepath);
+                }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+        }
+
+        private void ToCSVStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ToCSVControlerForm tccf = new ToCSVControlerForm();
+            if (tccf.ShowDialog() == DialogResult.Cancel)
+                return;
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "CSV Files (*.csv)|*.csv";
+            var result = sfd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                StreamWriter sw = new StreamWriter(sfd.FileName, false);
+                sw.WriteLine("FullPath,Name,Article,Remaining");
+                for (int i = 0; i < WareHouse.Count; i++)
+                {
+                    saveStructure.ToCSV(WareHouse[i], sfd.FileName, tccf.N, sw);
+                }
+                sw.Close();
+            }
+        }
+
+        private void newStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var ms = MessageBox.Show("Do you want save this warehouse list before create new one?", "Save the warehouse", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (ms == DialogResult.Yes)
+                saveStructure.SaveXML();
+            WareHouse = new List<Folder>();
+            saveStructure.SaveWarehouseList(WareHouse);
+            RefreshTree();
+        }
+
+        private void saveStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            saveStructure.SaveXML();
+        }
+
+        private void OpenStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "XML Files (*.xml)|*.xml";
+            ofd.ShowDialog();
+            if (ofd.FileName == string.Empty)
+                return;
+            File.Copy(ofd.FileName, saveStructure.PathToSaving, true);
+            WareHouse = saveStructure.LoadWarehouseList();
+            RefreshTree();
         }
     }
 }

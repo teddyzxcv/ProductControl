@@ -1,10 +1,16 @@
 <ProductControl>
   <Warehouse>
-    <Folder Name="Main23" Type="FolderFolder">
-      <Folder Name="123" Type="ProductFolder">
-        <Product Name="aa" Article="aaa" Price="0" Remain="0" PathToPic="default-image.png" Description="aaa" />
-        <Product Name="asdfaf" Article="asdfasdf" Price="4" Remain="2" PathToPic="default-image.png" Description="sdfadf" />
+    <Folder Name="as" Type="FolderFolder">
+      <Folder Name="s" Type="ProductFolder">
+        <Product Name="C" Article="C" Price="0" Remain="0" PathToPic="Pictures\0..png" Description="C" FullPath="Warehouse\as\s" />
+        <Product Name="G" Article="G" Price="0" Remain="4" PathToPic="default-image.png" Description="G" FullPath="Warehouse\as\s" />
+        <Product Name="H" Article="H" Price="0" Remain="10" PathToPic="default-image.png" Description="H" FullPath="Warehouse\as\s" />
+        <Product Name="F" Article="F" Price="0" Remain="1" PathToPic="default-image.png" Description="F" FullPath="Warehouse\as\s" />
       </Folder>
+    </Folder>
+    <Folder Name="A" Type="ProductFolder">
+      <Product Name="B" Article="B" Price="0" Remain="4" PathToPic="default-image.png" Description="B" FullPath="Warehouse\A" />
+      <Product Name="C" Article="C" Price="0" Remain="6" PathToPic="default-image.png" Description="D" FullPath="Warehouse\A" />
     </Folder>
   </Warehouse>
 </ProductControl>

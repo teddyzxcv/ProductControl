@@ -59,8 +59,8 @@ namespace ProductControl
         /// <summary>
         /// Path to save file xml.
         /// </summary>
-        static string PathToSaving = "StructureSave.xml";
-
+        public static string PathToSaving = "StructureSave.xml";
+        public static string PathToSavePic = "Pictures";
         public static List<Folder> LoadWarehouseList()
         {
             XmlDocument doc = new XmlDocument();
@@ -102,7 +102,7 @@ namespace ProductControl
             for (int i = 0; i < nodes.Count; i++)
             {
                 Product pro = new Product(nodes[i].Attributes["Name"].Value, nodes[i].Attributes["Article"].Value, int.Parse(nodes[i].Attributes["Remain"].Value)
-                    , int.Parse(nodes[i].Attributes["Price"].Value), nodes[i].Attributes["Description"].Value, nodes[i].Attributes["PathToPic"].Value, parent);
+                    , int.Parse(nodes[i].Attributes["Price"].Value), nodes[i].Attributes["Description"].Value, nodes[i].Attributes["PathToPic"].Value, parent, nodes[i].Attributes["FullPath"].Value);
                 Output.Add(pro);
             }
             return Output;
@@ -185,18 +185,21 @@ namespace ProductControl
                 XmlAttribute prductRemain = doc.CreateAttribute("Remain");
                 XmlAttribute prductPathToPic = doc.CreateAttribute("PathToPic");
                 XmlAttribute prductDescp = doc.CreateAttribute("Description");
+                XmlAttribute prductFullPath = doc.CreateAttribute("FullPath");
                 prductName.Value = ((Product)folder.ElementsList[i]).Name;
                 prductArticle.Value = ((Product)folder.ElementsList[i]).Article;
                 prductPrice.Value = ((Product)folder.ElementsList[i]).Price.ToString();
                 prductRemain.Value = ((Product)folder.ElementsList[i]).Remaining.ToString();
                 prductPathToPic.Value = ((Product)folder.ElementsList[i]).PathToPic;
                 prductDescp.Value = ((Product)folder.ElementsList[i]).Description;
+                prductFullPath.Value = ((Product)folder.ElementsList[i]).FullPath;
                 newProduct.SetAttributeNode(prductName);
                 newProduct.SetAttributeNode(prductArticle);
                 newProduct.SetAttributeNode(prductPrice);
                 newProduct.SetAttributeNode(prductRemain);
                 newProduct.SetAttributeNode(prductPathToPic);
                 newProduct.SetAttributeNode(prductDescp);
+                newProduct.SetAttributeNode(prductFullPath);
                 node.AppendChild(newProduct);
             }
         }
@@ -214,6 +217,32 @@ namespace ProductControl
                 result.Rows.Add(row);
             }
             return result;
+        }
+        public static void ToCSV(Folder fol, string strFilePath, int remain, StreamWriter sw)
+        {
+            if (fol.Type == Folder.FolderType.ProductFolder)
+            {
+                foreach (Product dr in fol.ElementsList)
+                {
+                    if (dr.Remaining <= remain)
+                        sw.WriteLine($"{dr.FullPath},{dr.Article},{dr.Name},{dr.Remaining}");
+                }
+            }
+            else if (fol.Type == Folder.FolderType.FolderFolder)
+            {
+                for (int i = 0; i < fol.ElementsList.Count; i++)
+                {
+                    ToCSV((Folder)fol.ElementsList[i], strFilePath, remain, sw);
+                }
+            }
+        }
+        public static void SaveXML()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "XML Files (*.xml)|*.xml";
+            sfd.ShowDialog();
+            if (sfd.FileName != string.Empty)
+                File.Copy(PathToSaving, sfd.FileName);
         }
 
     }

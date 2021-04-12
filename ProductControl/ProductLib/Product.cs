@@ -18,7 +18,7 @@ namespace ProductControl.ProductLib
 
         public Folder Parent;
 
-        public Product(string name, string article, int remaining, int price, string description, string pathtopic, Folder parent)
+        public Product(string name, string article, int remaining, int price, string description, string pathtopic, Folder parent, string fullpath)
         {
             Name = name;
             Article = article;
@@ -27,6 +27,7 @@ namespace ProductControl.ProductLib
             Description = description;
             PathToPic = pathtopic;
             Parent = parent;
+            FullPath = fullpath;
         }
 
     }

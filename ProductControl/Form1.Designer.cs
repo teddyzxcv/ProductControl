@@ -32,8 +32,13 @@ namespace ProductControl
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Warehouse");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.newStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newFolderStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newProductStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToCSVStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -52,13 +57,46 @@ namespace ProductControl
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileStripMenuItem1,
             this.newFolderStripMenuItem1,
-            this.newProductStripMenuItem1});
+            this.newProductStripMenuItem1,
+            this.ToCSVStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(484, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(870, 25);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileStripMenuItem1
+            // 
+            this.fileStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenStripMenuItem1,
+            this.saveStripMenuItem1,
+            this.newStripMenuItem1});
+            this.fileStripMenuItem1.Name = "fileStripMenuItem1";
+            this.fileStripMenuItem1.Size = new System.Drawing.Size(39, 21);
+            this.fileStripMenuItem1.Text = "File";
+            // 
+            // OpenStripMenuItem1
+            // 
+            this.OpenStripMenuItem1.Name = "OpenStripMenuItem1";
+            this.OpenStripMenuItem1.Size = new System.Drawing.Size(175, 22);
+            this.OpenStripMenuItem1.Text = "Open warehouse";
+            this.OpenStripMenuItem1.Click += new System.EventHandler(this.OpenStripMenuItem1_Click);
+            // 
+            // saveStripMenuItem1
+            // 
+            this.saveStripMenuItem1.Name = "saveStripMenuItem1";
+            this.saveStripMenuItem1.Size = new System.Drawing.Size(175, 22);
+            this.saveStripMenuItem1.Text = "Save warehouse";
+            this.saveStripMenuItem1.Click += new System.EventHandler(this.saveStripMenuItem1_Click);
+            // 
+            // newStripMenuItem1
+            // 
+            this.newStripMenuItem1.Name = "newStripMenuItem1";
+            this.newStripMenuItem1.Size = new System.Drawing.Size(175, 22);
+            this.newStripMenuItem1.Text = "New warehouse";
+            this.newStripMenuItem1.Click += new System.EventHandler(this.newStripMenuItem1_Click);
             // 
             // newFolderStripMenuItem1
             // 
@@ -74,6 +112,13 @@ namespace ProductControl
             this.newProductStripMenuItem1.Text = "Create product";
             this.newProductStripMenuItem1.Click += new System.EventHandler(this.newProductStripMenuItem1_Click);
             // 
+            // ToCSVStripMenuItem1
+            // 
+            this.ToCSVStripMenuItem1.Name = "ToCSVStripMenuItem1";
+            this.ToCSVStripMenuItem1.Size = new System.Drawing.Size(58, 21);
+            this.ToCSVStripMenuItem1.Text = "ToCSV";
+            this.ToCSVStripMenuItem1.Click += new System.EventHandler(this.ToCSVStripMenuItem1_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -87,8 +132,8 @@ namespace ProductControl
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Size = new System.Drawing.Size(484, 436);
-            this.splitContainer1.SplitterDistance = 219;
+            this.splitContainer1.Size = new System.Drawing.Size(870, 436);
+            this.splitContainer1.SplitterDistance = 250;
             this.splitContainer1.TabIndex = 2;
             // 
             // treeView1
@@ -100,7 +145,7 @@ namespace ProductControl
             treeNode1.Text = "Warehouse";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeView1.Size = new System.Drawing.Size(219, 436);
+            this.treeView1.Size = new System.Drawing.Size(250, 436);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -112,8 +157,9 @@ namespace ProductControl
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(261, 436);
+            this.dataGridView1.Size = new System.Drawing.Size(616, 436);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // contextMenuStrip1
             // 
@@ -141,7 +187,7 @@ namespace ProductControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 461);
+            this.ClientSize = new System.Drawing.Size(870, 461);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -174,6 +220,11 @@ namespace ProductControl
         private System.Windows.Forms.ToolStripMenuItem deleteStripMenuItem1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripMenuItem newProductStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ToCSVStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem fileStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem OpenStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem saveStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem newStripMenuItem1;
     }
 }
 

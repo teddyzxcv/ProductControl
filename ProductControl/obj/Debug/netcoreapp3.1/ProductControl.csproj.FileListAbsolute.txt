@@ -17,3 +17,4 @@ C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcorea
 C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.RenameForm.resources
 C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.CreateProduct.resources
 C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.Productview.resources
+C:\Users\pan26\Documents\GitHub\ProductControl\ProductControl\obj\Debug\netcoreapp3.1\ProductControl.ToCSVControlerForm.resources
