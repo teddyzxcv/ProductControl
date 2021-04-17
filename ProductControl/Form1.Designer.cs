@@ -39,6 +39,7 @@ namespace ProductControl
             this.newFolderStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newProductStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToCSVStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.randomStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -60,7 +61,8 @@ namespace ProductControl
             this.fileStripMenuItem1,
             this.newFolderStripMenuItem1,
             this.newProductStripMenuItem1,
-            this.ToCSVStripMenuItem1});
+            this.ToCSVStripMenuItem1,
+            this.randomStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(870, 25);
@@ -118,6 +120,13 @@ namespace ProductControl
             this.ToCSVStripMenuItem1.Size = new System.Drawing.Size(58, 21);
             this.ToCSVStripMenuItem1.Text = "ToCSV";
             this.ToCSVStripMenuItem1.Click += new System.EventHandler(this.ToCSVStripMenuItem1_Click);
+            // 
+            // randomStripMenuItem1
+            // 
+            this.randomStripMenuItem1.Name = "randomStripMenuItem1";
+            this.randomStripMenuItem1.Size = new System.Drawing.Size(69, 21);
+            this.randomStripMenuItem1.Text = "Random";
+            this.randomStripMenuItem1.Click += new System.EventHandler(this.randomStripMenuItem1_Click);
             // 
             // splitContainer1
             // 
@@ -225,6 +234,7 @@ namespace ProductControl
         private System.Windows.Forms.ToolStripMenuItem OpenStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem saveStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem newStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem randomStripMenuItem1;
     }
 }
 

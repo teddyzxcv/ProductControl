@@ -13,13 +13,9 @@ namespace ProductControl
     {
         public string Product_Name;
         public string Article;
-
         public int Remaining;
-
         public int Price;
-
         public string Description;
-
         public string PathToPic;
         public CreateProduct()
         {
@@ -28,28 +24,23 @@ namespace ProductControl
             this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBox1.Image = Image.FromFile("default-image.png");
             PathToPic = "default-image.png";
-
         }
-
         private void label6_Click(object sender, EventArgs e)
         {
             this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBox1.AutoSize = false;
         }
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
             ofd.ShowDialog();
-            PathToPic = Path.Combine(saveStructure.PathToSavePic, Directory.GetFiles(saveStructure.PathToSavePic).Length.ToString() + "." + Path.GetExtension(ofd.FileName));
+            PathToPic = Path.Combine(saveStructure.PathToSavePic, Directory.GetFiles(saveStructure.PathToSavePic).Length.ToString() + Path.GetExtension(ofd.FileName));
             File.Copy(ofd.FileName, PathToPic, true);
             this.pictureBox1.Image = Image.FromFile(ofd.FileName);
             this.pictureBox1.AutoSize = false;
             this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try

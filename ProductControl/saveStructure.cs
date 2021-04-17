@@ -168,6 +168,7 @@ namespace ProductControl
         public static DataTable DefaultDataTable()
         {
             DataTable result = new DataTable();
+            result.Columns.Add("Path");
             result.Columns.Add("Name");
             result.Columns.Add("Article");
             result.Columns.Add("Remaining");
@@ -206,16 +207,37 @@ namespace ProductControl
         public static DataTable ProcessProductFolder(Folder fol)
         {
             DataTable result = DefaultDataTable();
-            for (int i = 0; i < fol.ElementsList.Count; i++)
+            for (int i = 0; i < fol.AllUnderList.Count; i++)
             {
                 var row = result.NewRow();
-                var product = (Product)fol.ElementsList[i];
+                var product = fol.AllUnderList[i];
+                row["Path"] = product.FullPath;
                 row["Name"] = product.Name;
                 row["Article"] = product.Article;
                 row["Remaining"] = product.Remaining;
                 row["Price"] = product.Price;
                 result.Rows.Add(row);
             }
+            return result;
+        }
+        public static DataTable ProcessAllProductFolder(List<Folder> fols)
+        {
+            DataTable result = DefaultDataTable();
+            for (int j = 0; j < fols.Count; j++)
+            {
+                for (int i = 0; i < fols[j].AllUnderList.Count; i++)
+                {
+                    var row = result.NewRow();
+                    var product = fols[j].AllUnderList[i];
+                    row["Path"] = product.FullPath;
+                    row["Name"] = product.Name;
+                    row["Article"] = product.Article;
+                    row["Remaining"] = product.Remaining;
+                    row["Price"] = product.Price;
+                    result.Rows.Add(row);
+                }
+            }
+
             return result;
         }
         public static void ToCSV(Folder fol, string strFilePath, int remain, StreamWriter sw)
@@ -235,6 +257,68 @@ namespace ProductControl
                     ToCSV((Folder)fol.ElementsList[i], strFilePath, remain, sw);
                 }
             }
+        }
+        public static List<Folder> GenerateRandomList(int nFolder, int nProduct, int level)
+        {
+            string alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            List<Folder> warehouse = new List<Folder>();
+            var rand = new Random();
+            for (int j = 0; j < nFolder; j++)
+            {
+                warehouse.Add(new Folder(alp[j].ToString(), null, Folder.FolderType.Default));
+            }
+            var currentlist = warehouse;
+            var defaultlist = new List<Elements>();
+            for (int k = 0; k < level - 1; k++)
+            {
+                var nextlist = new List<Folder>();
+                int remain = nFolder;
+                for (int i = 0; i < currentlist.Count; i++)
+                {
+                    int folderinlevel = rand.Next(1, remain);
+                    currentlist[i].Type = Folder.FolderType.FolderFolder;
+                    for (int j = 0; j < folderinlevel; j++)
+                    {
+                        var fol = new Folder(alp[j].ToString(), currentlist[i], Folder.FolderType.Default);
+                        currentlist[i].ElementsList.Add(fol);
+                        nextlist.Add(fol);
+                    }
+                    remain -= folderinlevel;
+                    if (remain == 0)
+                    {
+                        break;
+                    }
+                }
+                defaultlist.AddRange(currentlist.Where(e => ((Folder)e).Type == Folder.FolderType.Default));
+                currentlist = nextlist;
+            }
+            defaultlist.AddRange(currentlist.Where(e => ((Folder)e).Type == Folder.FolderType.Default));
+
+            for (int i = 0; i < defaultlist.Count; i++)
+            {
+                Folder fol = (Folder)defaultlist[i];
+                fol.Type = Folder.FolderType.ProductFolder;
+                for (int j = 0; j < nProduct; j++)
+                {
+                    fol.ElementsList.Add(new Product(alp[i].ToString(), j.ToString(), rand.Next(0, 100), rand.Next(1, 10000), alp[i].ToString(), "default - image.png", fol, FolderToPath(fol)));
+                }
+            }
+            return warehouse;
+        }
+
+        public static string FolderToPath(Folder fol)
+        {
+            List<string> path = new List<string>();
+            Folder parent;
+            do
+            {
+                parent = fol.Parent;
+                path.Add(fol.Name);
+                fol = fol.Parent;
+            } while (parent != null);
+            path.Add("Warehouse");
+            path.Reverse();
+            return string.Join('\\', path);
         }
         public static void SaveXML()
         {

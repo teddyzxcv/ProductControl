@@ -1,16 +1,24 @@
 <ProductControl>
   <Warehouse>
-    <Folder Name="as" Type="FolderFolder">
-      <Folder Name="s" Type="ProductFolder">
-        <Product Name="C" Article="C" Price="0" Remain="0" PathToPic="Pictures\0..png" Description="C" FullPath="Warehouse\as\s" />
-        <Product Name="G" Article="G" Price="0" Remain="4" PathToPic="default-image.png" Description="G" FullPath="Warehouse\as\s" />
-        <Product Name="H" Article="H" Price="0" Remain="10" PathToPic="default-image.png" Description="H" FullPath="Warehouse\as\s" />
-        <Product Name="F" Article="F" Price="0" Remain="1" PathToPic="default-image.png" Description="F" FullPath="Warehouse\as\s" />
+    <Folder Name="A" Type="FolderFolder">
+      <Folder Name="A" Type="FolderFolder">
+        <Folder Name="A" Type="FolderFolder">
+          <Folder Name="A" Type="FolderFolder">
+            <Folder Name="A" Type="ProductFolder">
+              <Product Name="A" Article="0" Price="8341" Remain="34" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="1" Price="6520" Remain="92" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="2" Price="3667" Remain="92" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="3" Price="2681" Remain="84" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="4" Price="814" Remain="59" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="5" Price="7557" Remain="43" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="6" Price="4031" Remain="86" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="7" Price="5201" Remain="91" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="8" Price="2751" Remain="67" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+              <Product Name="A" Article="9" Price="576" Remain="20" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
+            </Folder>
+          </Folder>
+        </Folder>
       </Folder>
-    </Folder>
-    <Folder Name="A" Type="ProductFolder">
-      <Product Name="B" Article="B" Price="0" Remain="4" PathToPic="default-image.png" Description="B" FullPath="Warehouse\A" />
-      <Product Name="C" Article="C" Price="0" Remain="6" PathToPic="default-image.png" Description="D" FullPath="Warehouse\A" />
     </Folder>
   </Warehouse>
 </ProductControl>

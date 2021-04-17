@@ -236,20 +236,25 @@ namespace ProductControl
             this.dataGridView1.DataSource = saveStructure.DefaultDataTable();
             if (this.treeView1.SelectedNode != null)
             {
-                var folder = NodeSearch(this.treeView1.SelectedNode.FullPath);
+                var folder = NodeSearch(selectednodepath);
                 if (folder != null)
-                    if (folder.Type == Folder.FolderType.ProductFolder)
-                    {
-                        this.dataGridView1.Visible = true;
-                        this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
-                    }
-                    else
-                    {
-                        this.dataGridView1.Visible = false;
-                    }
+                    this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
                 else
-                    this.dataGridView1.Visible = false;
-
+                {
+                    this.dataGridView1.DataSource = saveStructure.ProcessAllProductFolder(WareHouse);
+                }
+                this.dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                // if (folder.Type == Folder.FolderType.ProductFolder)
+                //     {
+                //         this.dataGridView1.Visible = true;
+                //         this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
+                //     }
+                //     else
+                //     {
+                //         this.dataGridView1.Visible = false;
+                //     }
+                // else
+                //     this.dataGridView1.Visible = false;
             }
             if (selectednodepath != null)
             {
@@ -357,6 +362,15 @@ namespace ProductControl
             File.Copy(ofd.FileName, saveStructure.PathToSaving, true);
             WareHouse = saveStructure.LoadWarehouseList();
             RefreshTree();
+        }
+
+        private void randomStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            RandomForm rf = new RandomForm();
+            rf.ShowDialog();
+            WareHouse = saveStructure.GenerateRandomList(rf.nFolder, rf.nProduct, rf.nLevel);
+            RefreshTree();
+            saveStructure.SaveWarehouseList(WareHouse);
         }
     }
 }

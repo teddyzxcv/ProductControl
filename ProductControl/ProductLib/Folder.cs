@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace ProductControl.ProductLib
 {
@@ -9,6 +10,29 @@ namespace ProductControl.ProductLib
         public Folder Parent;
         public List<Elements> ElementsList = new List<Elements>();
 
+        public List<Product> AllUnderList
+        {
+            get
+            {
+                return OpenFolder(this);
+            }
+        }
+
+        private List<Product> OpenFolder(Folder folder)
+        {
+            List<Product> output = new List<Product>();
+            if (folder.Type == FolderType.ProductFolder)
+                return folder.ElementsList.Select(e => (Product)e).ToList();
+            else
+            {
+                for (int i = 0; i < folder.ElementsList.Count; i++)
+                {
+                    output.AddRange(OpenFolder((Folder)(folder.ElementsList[i])));
+                }
+            }
+            return output;
+
+        }
         public enum FolderType
         {
             Default,
