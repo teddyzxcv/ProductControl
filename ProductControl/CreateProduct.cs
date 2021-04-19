@@ -30,6 +30,11 @@ namespace ProductControl
             this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBox1.AutoSize = false;
         }
+        /// <summary>
+        /// Give new picture.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -41,6 +46,11 @@ namespace ProductControl
             this.pictureBox1.AutoSize = false;
             this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
         }
+        /// <summary>
+        /// Save changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             try

@@ -14,8 +14,17 @@ namespace ProductControl
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// All list.
+        /// </summary>
+        /// <returns></returns>
         static List<Folder> WareHouse = saveStructure.LoadWarehouseList();
 
+        /// <summary>
+        /// Create folder.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="parent"></param>
         static void CreateFolder(string name, Folder parent)
         {
             Folder folder = new Folder(name, parent);
@@ -27,6 +36,11 @@ namespace ProductControl
                 parent.Type = Folder.FolderType.FolderFolder;
             }
         }
+        /// <summary>
+        /// Refresh all treeview folder.
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="fol"></param>
         private void RefreshFolder(TreeNodeCollection nodes, Folder fol)
         {
             if (fol.Type == Folder.FolderType.FolderFolder)
@@ -38,6 +52,13 @@ namespace ProductControl
                     nodes.Add(node);
                 }
         }
+        /// <summary>
+        /// Find treenode by full path.
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="fullPath"></param>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
         public static TreeNode FindTreeNodeByFullPath(TreeNodeCollection collection, string fullPath, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
             var foundNode = collection.Cast<TreeNode>().FirstOrDefault(tn => string.Equals(tn.FullPath, fullPath, comparison));
@@ -54,7 +75,9 @@ namespace ProductControl
             }
             return foundNode;
         }
-
+        /// <summary>
+        /// Refresh tree.
+        /// </summary>
         private void RefreshTree()
         {
             var savestate = this.treeView1.Nodes.GetExpansionState();
@@ -78,6 +101,11 @@ namespace ProductControl
                     sn.Expand();
             }
         }
+        /// <summary>
+        /// Search folder by treenode.
+        /// </summary>
+        /// <param name="fullpath"></param>
+        /// <returns></returns>
         public Folder NodeSearch(string fullpath)
         {
             List<string> path = fullpath.Split('\\').ToList();
@@ -91,6 +119,9 @@ namespace ProductControl
             Folder output = (Folder)targetFolder;
             return output;
         }
+        /// <summary>
+        /// Initialize.
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -129,8 +160,11 @@ namespace ProductControl
                 MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
+        /// <summary>
+        /// Change name.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void changeNameStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
@@ -160,7 +194,11 @@ namespace ProductControl
                 MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Delete item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
@@ -184,7 +222,6 @@ namespace ProductControl
                     if (target.Parent.ElementsList.Count == 0)
                         target.Parent.Type = Folder.FolderType.Default;
                 }
-
                 saveStructure.SaveWarehouseList(WareHouse);
                 RefreshTree();
             }
@@ -193,7 +230,11 @@ namespace ProductControl
                 MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Create product.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newProductStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
@@ -225,12 +266,19 @@ namespace ProductControl
                 MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             };
         }
-
+        /// <summary>
+        /// Event when select treenode.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             RefreshDataGrid(this.treeView1.SelectedNode.FullPath);
-
         }
+        /// <summary>
+        /// Refresh data grid.
+        /// </summary>
+        /// <param name="selectednodepath"></param>
         private void RefreshDataGrid(string selectednodepath)
         {
             this.dataGridView1.DataSource = saveStructure.DefaultDataTable();
@@ -244,6 +292,7 @@ namespace ProductControl
                     this.dataGridView1.DataSource = saveStructure.ProcessAllProductFolder(WareHouse);
                 }
                 this.dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                this.dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 // if (folder.Type == Folder.FolderType.ProductFolder)
                 //     {
                 //         this.dataGridView1.Visible = true;
@@ -265,7 +314,11 @@ namespace ProductControl
             this.dataGridView1.Refresh();
             this.dataGridView1.Sort(this.dataGridView1.Columns["Name"], ListSortDirection.Ascending);
         }
-
+        /// <summary>
+        /// Change product name.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -281,9 +334,11 @@ namespace ProductControl
                 if (dgv == null)
                     return;
                 Folder fol = NodeSearch(this.treeView1.SelectedNode.FullPath);
+                if (fol == null)
+                    throw new ArgumentException("Plz select a folder to change product directly in this folder");
                 if (dgv.CurrentRow.Selected && fol.Type == Folder.FolderType.ProductFolder)
                 {
-                    string name = (string)dgv.CurrentRow.Cells[0].Value;
+                    string name = (string)dgv.CurrentRow.Cells[1].Value;
                     Product pr = (Product)fol.ElementsList.Find(e => e.Name == name);
                     fol.ElementsList.Remove(pr);
                     Productview pv = new Productview(name, pr.Article, pr.Remaining, pr.Price, pr.Description, pr.PathToPic);
@@ -316,7 +371,11 @@ namespace ProductControl
                 MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             };
         }
-
+        /// <summary>
+        /// TO csv method.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ToCSVStripMenuItem1_Click(object sender, EventArgs e)
         {
             ToCSVControlerForm tccf = new ToCSVControlerForm();
@@ -336,7 +395,11 @@ namespace ProductControl
                 sw.Close();
             }
         }
-
+        /// <summary>
+        /// New warehouse.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newStripMenuItem1_Click(object sender, EventArgs e)
         {
             var ms = MessageBox.Show("Do you want save this warehouse list before create new one?", "Save the warehouse", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
@@ -346,12 +409,20 @@ namespace ProductControl
             saveStructure.SaveWarehouseList(WareHouse);
             RefreshTree();
         }
-
+        /// <summary>
+        /// Save warehouse.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveStripMenuItem1_Click(object sender, EventArgs e)
         {
             saveStructure.SaveXML();
         }
-
+        /// <summary>
+        /// Open warehouse.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -363,7 +434,11 @@ namespace ProductControl
             WareHouse = saveStructure.LoadWarehouseList();
             RefreshTree();
         }
-
+        /// <summary>
+        /// Random warehouse.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void randomStripMenuItem1_Click(object sender, EventArgs e)
         {
             RandomForm rf = new RandomForm();

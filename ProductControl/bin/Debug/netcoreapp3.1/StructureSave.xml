@@ -1,24 +1,7 @@
 <ProductControl>
   <Warehouse>
-    <Folder Name="A" Type="FolderFolder">
-      <Folder Name="A" Type="FolderFolder">
-        <Folder Name="A" Type="FolderFolder">
-          <Folder Name="A" Type="FolderFolder">
-            <Folder Name="A" Type="ProductFolder">
-              <Product Name="A" Article="0" Price="8341" Remain="34" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="1" Price="6520" Remain="92" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="2" Price="3667" Remain="92" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="3" Price="2681" Remain="84" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="4" Price="814" Remain="59" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="5" Price="7557" Remain="43" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="6" Price="4031" Remain="86" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="7" Price="5201" Remain="91" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="8" Price="2751" Remain="67" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-              <Product Name="A" Article="9" Price="576" Remain="20" PathToPic="default - image.png" Description="A" FullPath="Warehouse\A\A\A\A\A" />
-            </Folder>
-          </Folder>
-        </Folder>
-      </Folder>
+    <Folder Name="Tutorial" Type="ProductFolder">
+      <Product Name="&lt;---- Click start of row to change" Article="1" Price="0" Remain="0" PathToPic="default-image.png" Description="1" FullPath="Warehouse\Tutorial" />
     </Folder>
   </Warehouse>
 </ProductControl>

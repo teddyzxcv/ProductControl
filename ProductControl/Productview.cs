@@ -72,7 +72,11 @@ namespace ProductControl
             this.Close();
 
         }
-
+        /// <summary>
+        /// Change picture.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();

@@ -17,7 +17,11 @@ namespace ProductControl.ProductLib
                 return OpenFolder(this);
             }
         }
-
+        /// <summary>
+        /// Open folder.
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
         private List<Product> OpenFolder(Folder folder)
         {
             List<Product> output = new List<Product>();

@@ -61,6 +61,10 @@ namespace ProductControl
         /// </summary>
         public static string PathToSaving = "StructureSave.xml";
         public static string PathToSavePic = "Pictures";
+        /// <summary>
+        /// Open warehouse.
+        /// </summary>
+        /// <returns></returns>
         public static List<Folder> LoadWarehouseList()
         {
             XmlDocument doc = new XmlDocument();
@@ -81,6 +85,12 @@ namespace ProductControl
             }
             return Output;
         }
+        /// <summary>
+        /// Open folder.
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
 
         public static List<Elements> LoadFolderList(List<XmlNode> nodes, Folder parent)
         {
@@ -96,6 +106,12 @@ namespace ProductControl
             }
             return Output;
         }
+        /// <summary>
+        /// Open product.
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
         public static List<Elements> LoadProductList(List<XmlNode> nodes, Folder parent)
         {
             List<Elements> Output = new List<Elements>();
@@ -107,6 +123,10 @@ namespace ProductControl
             }
             return Output;
         }
+        /// <summary>
+        /// Save warehouse.
+        /// </summary>
+        /// <param name="folList"></param>
 
         public static void SaveWarehouseList(List<Folder> folList)
         {
@@ -164,7 +184,10 @@ namespace ProductControl
                 node.AppendChild(newSubList);
             }
         }
-
+        /// <summary>
+        /// Give default data grid.
+        /// </summary>
+        /// <returns></returns>
         public static DataTable DefaultDataTable()
         {
             DataTable result = new DataTable();
@@ -175,6 +198,12 @@ namespace ProductControl
             result.Columns.Add("Price");
             return result;
         }
+        /// <summary>
+        /// Save product.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="folder"></param>
+        /// <param name="doc"></param>
         private static void SaveProduct(XmlElement node, Folder folder, XmlDocument doc)
         {
             for (int i = 0; i < folder.ElementsList.Count; i++)
@@ -204,6 +233,11 @@ namespace ProductControl
                 node.AppendChild(newProduct);
             }
         }
+        /// <summary>
+        /// Give the datatable folder.
+        /// </summary>
+        /// <param name="fol"></param>
+        /// <returns></returns>
         public static DataTable ProcessProductFolder(Folder fol)
         {
             DataTable result = DefaultDataTable();
@@ -220,6 +254,11 @@ namespace ProductControl
             }
             return result;
         }
+        /// <summary>
+        /// Give all datatable in one folder.
+        /// </summary>
+        /// <param name="fols"></param>
+        /// <returns></returns>
         public static DataTable ProcessAllProductFolder(List<Folder> fols)
         {
             DataTable result = DefaultDataTable();
@@ -240,6 +279,13 @@ namespace ProductControl
 
             return result;
         }
+        /// <summary>
+        /// To csv method.
+        /// </summary>
+        /// <param name="fol"></param>
+        /// <param name="strFilePath"></param>
+        /// <param name="remain"></param>
+        /// <param name="sw"></param>
         public static void ToCSV(Folder fol, string strFilePath, int remain, StreamWriter sw)
         {
             if (fol.Type == Folder.FolderType.ProductFolder)
@@ -258,6 +304,13 @@ namespace ProductControl
                 }
             }
         }
+        /// <summary>
+        /// Generate random list.
+        /// </summary>
+        /// <param name="nFolder"></param>
+        /// <param name="nProduct"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
         public static List<Folder> GenerateRandomList(int nFolder, int nProduct, int level)
         {
             string alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -300,12 +353,16 @@ namespace ProductControl
                 fol.Type = Folder.FolderType.ProductFolder;
                 for (int j = 0; j < nProduct; j++)
                 {
-                    fol.ElementsList.Add(new Product(alp[i].ToString(), j.ToString(), rand.Next(0, 100), rand.Next(1, 10000), alp[i].ToString(), "default - image.png", fol, FolderToPath(fol)));
+                    fol.ElementsList.Add(new Product(alp[j].ToString(), j.ToString(), rand.Next(0, 100), rand.Next(1, 10000), alp[i].ToString(), "default-image.png", fol, FolderToPath(fol)));
                 }
             }
             return warehouse;
         }
-
+        /// <summary>
+        /// Folder to full path.
+        /// </summary>
+        /// <param name="fol"></param>
+        /// <returns></returns>
         public static string FolderToPath(Folder fol)
         {
             List<string> path = new List<string>();
@@ -320,6 +377,9 @@ namespace ProductControl
             path.Reverse();
             return string.Join('\\', path);
         }
+        /// <summary>
+        /// Save warehouse in XML.
+        /// </summary>
         public static void SaveXML()
         {
             SaveFileDialog sfd = new SaveFileDialog();

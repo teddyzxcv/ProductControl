@@ -20,7 +20,11 @@ namespace ProductControl
         {
 
         }
-
+        /// <summary>
+        /// Start To CSV proccess.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             N = (int)this.numericUpDown1.Value;
