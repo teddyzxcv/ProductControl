@@ -334,7 +334,7 @@ namespace ProductControl
                 if (dgv == null)
                     return;
                 Folder fol = NodeSearch(this.treeView1.SelectedNode.FullPath);
-                if (fol == null)
+                if (fol == null || fol.Type == Folder.FolderType.FolderFolder)
                     throw new ArgumentException("Plz select a folder to change product directly in this folder");
                 if (dgv.CurrentRow.Selected && fol.Type == Folder.FolderType.ProductFolder)
                 {
@@ -387,7 +387,7 @@ namespace ProductControl
             if (result == DialogResult.OK)
             {
                 StreamWriter sw = new StreamWriter(sfd.FileName, false);
-                sw.WriteLine("FullPath,Name,Article,Remaining");
+                sw.WriteLine("FullPath;Name;Article;Remaining");
                 for (int i = 0; i < WareHouse.Count; i++)
                 {
                     saveStructure.ToCSV(WareHouse[i], sfd.FileName, tccf.N, sw);

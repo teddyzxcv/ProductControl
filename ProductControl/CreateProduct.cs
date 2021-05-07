@@ -37,14 +37,23 @@ namespace ProductControl
         /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-            ofd.ShowDialog();
-            PathToPic = Path.Combine(saveStructure.PathToSavePic, Directory.GetFiles(saveStructure.PathToSavePic).Length.ToString() + Path.GetExtension(ofd.FileName));
-            File.Copy(ofd.FileName, PathToPic, true);
-            this.pictureBox1.Image = Image.FromFile(ofd.FileName);
-            this.pictureBox1.AutoSize = false;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            try
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                    PathToPic = Path.Combine(saveStructure.PathToSavePic, Directory.GetFiles(saveStructure.PathToSavePic).Length.ToString() + Path.GetExtension(ofd.FileName));
+                File.Copy(ofd.FileName, PathToPic, true);
+                if (!File.Exists(PathToPic))
+                    throw new ArgumentException("Cant find picture!");
+                this.pictureBox1.Image = Image.FromFile(PathToPic);
+                this.pictureBox1.AutoSize = false;
+                this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Save changes.

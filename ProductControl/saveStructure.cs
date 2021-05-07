@@ -293,7 +293,7 @@ namespace ProductControl
                 foreach (Product dr in fol.ElementsList)
                 {
                     if (dr.Remaining <= remain)
-                        sw.WriteLine($"{dr.FullPath},{dr.Article},{dr.Name},{dr.Remaining}");
+                        sw.WriteLine($"{dr.FullPath};{dr.Article};{dr.Name};{dr.Remaining}");
                 }
             }
             else if (fol.Type == Folder.FolderType.FolderFolder)
