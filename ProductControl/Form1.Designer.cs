@@ -40,12 +40,15 @@ namespace ProductControl
             this.newProductStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToCSVStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.randomStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cartStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changeNameStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -53,6 +56,7 @@ namespace ProductControl
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -62,7 +66,8 @@ namespace ProductControl
             this.newFolderStripMenuItem1,
             this.newProductStripMenuItem1,
             this.ToCSVStripMenuItem1,
-            this.randomStripMenuItem1});
+            this.randomStripMenuItem1,
+            this.cartStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(870, 25);
@@ -128,6 +133,13 @@ namespace ProductControl
             this.randomStripMenuItem1.Text = "Random";
             this.randomStripMenuItem1.Click += new System.EventHandler(this.randomStripMenuItem1_Click);
             // 
+            // cartStripMenuItem1
+            // 
+            this.cartStripMenuItem1.Name = "cartStripMenuItem1";
+            this.cartStripMenuItem1.Size = new System.Drawing.Size(44, 21);
+            this.cartStripMenuItem1.Text = "Cart";
+            this.cartStripMenuItem1.Click += new System.EventHandler(this.cartStripMenuItem1_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -192,6 +204,20 @@ namespace ProductControl
             this.deleteStripMenuItem1.Text = "Delete";
             this.deleteStripMenuItem1.Click += new System.EventHandler(this.deleteStripMenuItem1_Click);
             // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addStripMenuItem1});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(143, 26);
+            // 
+            // addStripMenuItem1
+            // 
+            this.addStripMenuItem1.Name = "addStripMenuItem1";
+            this.addStripMenuItem1.Size = new System.Drawing.Size(142, 22);
+            this.addStripMenuItem1.Text = "Add to cart";
+            this.addStripMenuItem1.Click += new System.EventHandler(this.addStripMenuItem1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -205,6 +231,7 @@ namespace ProductControl
             this.MinimumSize = new System.Drawing.Size(500, 500);
             this.Name = "Form1";
             this.Text = "Product Control";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -213,6 +240,7 @@ namespace ProductControl
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -235,6 +263,9 @@ namespace ProductControl
         private System.Windows.Forms.ToolStripMenuItem saveStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem newStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem randomStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem addStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem cartStripMenuItem1;
     }
 }
 

@@ -47,6 +47,7 @@ namespace ProductControl
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(30, 29);
+            this.trackBar1.Maximum = 4;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(104, 45);
             this.trackBar1.TabIndex = 0;
@@ -55,6 +56,7 @@ namespace ProductControl
             // trackBar2
             // 
             this.trackBar2.Location = new System.Drawing.Point(30, 108);
+            this.trackBar2.Maximum = 4;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Size = new System.Drawing.Size(104, 45);
             this.trackBar2.TabIndex = 1;
@@ -63,6 +65,7 @@ namespace ProductControl
             // trackBar3
             // 
             this.trackBar3.Location = new System.Drawing.Point(30, 181);
+            this.trackBar3.Maximum = 4;
             this.trackBar3.Name = "trackBar3";
             this.trackBar3.Size = new System.Drawing.Size(104, 45);
             this.trackBar3.TabIndex = 2;

@@ -1,7 +1,12 @@
 <ProductControl>
   <Warehouse>
-    <Folder Name="Tutorial" Type="ProductFolder">
-      <Product Name="&lt;---- Click start of row to change" Article="1" Price="0" Remain="0" PathToPic="default-image.png" Description="1" FullPath="Warehouse\Tutorial" />
+    <Folder Name="Pens" Type="ProductFolder">
+      <Product Name="Pen black" Article="001" Price="30" Remain="200" PathToPic="default-image.png" Description="is black" FullPath="Warehouse\Pens" />
+      <Product Name="Pen Blue" Article="002" Price="31" Remain="199" PathToPic="default-image.png" Description="Is blue" FullPath="Warehouse\Pens" />
+    </Folder>
+    <Folder Name="Notebooks" Type="ProductFolder">
+      <Product Name="Notebook cell" Article="003" Price="50" Remain="123" PathToPic="default-image.png" Description="Cells" FullPath="Warehouse\Notebooks" />
+      <Product Name="Notebook line" Article="004" Price="56" Remain="78" PathToPic="default-image.png" Description="Lines" FullPath="Warehouse\Notebooks" />
     </Folder>
   </Warehouse>
 </ProductControl>

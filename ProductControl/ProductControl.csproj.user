@@ -1,25 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="CreateFolderForm.cs">
+    <Compile Update="ClientForm\CartForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="CreateProduct.cs">
+    <Compile Update="ClientForm\RegistrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProductAdmin\CreateFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProductAdmin\CreateProduct.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Productview.cs">
+    <Compile Update="ClientForm\LoginRegistrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="RandomForm.cs">
+    <Compile Update="ProductAdmin\Productview.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="RenameForm.cs">
+    <Compile Update="ProductAdmin\RandomForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ToCSVControlerForm.cs">
+    <Compile Update="ProductAdmin\RenameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProductAdmin\ToCSVControlerForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

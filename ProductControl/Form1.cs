@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ProductControl.ProductLib;
 using System.IO;
+using ProductControl.ClientForm;
+using ProductControl.ClientSide;
+
 
 namespace ProductControl
 {
@@ -19,6 +22,9 @@ namespace ProductControl
         /// </summary>
         /// <returns></returns>
         static List<Folder> WareHouse = saveStructure.LoadWarehouseList();
+
+        static bool IsAdmin;
+        public static Client CurrentClient = new Client();
 
         /// <summary>
         /// Create folder.
@@ -321,55 +327,56 @@ namespace ProductControl
         /// <param name="e"></param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
-                WareHouse = saveStructure.LoadWarehouseList();
-                if (e.RowIndex == -1) return;
-                DataGridView dgv = sender as DataGridView;
-                if (dgv.CurrentRow.Index > dgv.Rows.Count - 2)
-                    return;
-                string selectednodepath = null;
-                if (this.treeView1.SelectedNode != null)
-                    selectednodepath = this.treeView1.SelectedNode.FullPath;
-                if (dgv == null)
-                    return;
-                Folder fol = NodeSearch(this.treeView1.SelectedNode.FullPath);
-                if (fol == null || fol.Type == Folder.FolderType.FolderFolder)
-                    throw new ArgumentException("Plz select a folder to change product directly in this folder");
-                if (dgv.CurrentRow.Selected && fol.Type == Folder.FolderType.ProductFolder)
+            if (IsAdmin)
+                try
                 {
-                    string name = (string)dgv.CurrentRow.Cells[1].Value;
-                    Product pr = (Product)fol.ElementsList.Find(e => e.Name == name);
-                    fol.ElementsList.Remove(pr);
-                    Productview pv = new Productview(name, pr.Article, pr.Remaining, pr.Price, pr.Description, pr.PathToPic);
-                    DialogResult rs = pv.ShowDialog();
-                    if (rs == DialogResult.No)
-                    {
-                        fol.ElementsList.Add(pr);
+                    WareHouse = saveStructure.LoadWarehouseList();
+                    if (e.RowIndex == -1) return;
+                    DataGridView dgv = sender as DataGridView;
+                    if (dgv.CurrentRow.Index > dgv.Rows.Count - 2)
                         return;
-                    }
-                    if (rs == DialogResult.Retry)
+                    string selectednodepath = null;
+                    if (this.treeView1.SelectedNode != null)
+                        selectednodepath = this.treeView1.SelectedNode.FullPath;
+                    if (dgv == null)
+                        return;
+                    Folder fol = NodeSearch(this.treeView1.SelectedNode.FullPath);
+                    if (fol == null || fol.Type == Folder.FolderType.FolderFolder)
+                        throw new ArgumentException("Plz select a folder to change product directly in this folder");
+                    if (dgv.CurrentRow.Selected && fol.Type == Folder.FolderType.ProductFolder)
                     {
-                        if (fol.ElementsList.Count == 0)
-                            fol.Type = Folder.FolderType.Default;
+                        string name = (string)dgv.CurrentRow.Cells[1].Value;
+                        Product pr = (Product)fol.ElementsList.Find(e => e.Name == name);
+                        fol.ElementsList.Remove(pr);
+                        Productview pv = new Productview(name, pr.Article, pr.Remaining, pr.Price, pr.Description, pr.PathToPic);
+                        DialogResult rs = pv.ShowDialog();
+                        if (rs == DialogResult.No)
+                        {
+                            fol.ElementsList.Add(pr);
+                            return;
+                        }
+                        if (rs == DialogResult.Retry)
+                        {
+                            if (fol.ElementsList.Count == 0)
+                                fol.Type = Folder.FolderType.Default;
+                            saveStructure.SaveWarehouseList(WareHouse);
+                            RefreshTree();
+                            RefreshDataGrid(selectednodepath);
+                            return;
+                        }
+                        if (fol.ElementsList.Select(e => e.Name).Contains(pv.Product_Name))
+                            throw new ArgumentException("No! No repeat!");
+                        pr = new Product(pv.Product_Name, pv.Article, pv.Remaining, pv.Price, pv.Description, pv.PathToPic, fol, selectednodepath);
+                        fol.ElementsList.Add(pr);
                         saveStructure.SaveWarehouseList(WareHouse);
                         RefreshTree();
                         RefreshDataGrid(selectednodepath);
-                        return;
                     }
-                    if (fol.ElementsList.Select(e => e.Name).Contains(pv.Product_Name))
-                        throw new ArgumentException("No! No repeat!");
-                    pr = new Product(pv.Product_Name, pv.Article, pv.Remaining, pv.Price, pv.Description, pv.PathToPic, fol, selectednodepath);
-                    fol.ElementsList.Add(pr);
-                    saveStructure.SaveWarehouseList(WareHouse);
-                    RefreshTree();
-                    RefreshDataGrid(selectednodepath);
                 }
-            }
-            catch (Exception er)
-            {
-                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            };
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                };
         }
         /// <summary>
         /// TO csv method.
@@ -446,6 +453,64 @@ namespace ProductControl
             WareHouse = saveStructure.GenerateRandomList(rf.nFolder, rf.nProduct, rf.nLevel);
             RefreshTree();
             saveStructure.SaveWarehouseList(WareHouse);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            LoginRegistrationForm lrf = new LoginRegistrationForm();
+            var result = lrf.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                this.fileStripMenuItem1.Visible = false;
+                this.randomStripMenuItem1.Visible = false;
+                this.deleteStripMenuItem1.Visible = false;
+                this.changeNameStripMenuItem1.Visible = false;
+                this.newFolderStripMenuItem1.Visible = false;
+                this.newProductStripMenuItem1.Visible = false;
+                this.ToCSVStripMenuItem1.Visible = false;
+                IsAdmin = false;
+                this.dataGridView1.ContextMenuStrip = this.contextMenuStrip2;
+
+
+            }
+            else if (result == DialogResult.Yes)
+            {
+                IsAdmin = true;
+            }
+            else
+            {
+                this.Close();
+                return;
+            }
+
+        }
+
+        private void addStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                WareHouse = saveStructure.LoadWarehouseList();
+                if (this.dataGridView1.SelectedRows.Count == 0)
+                    return;
+
+                string path = this.dataGridView1.SelectedRows[0].Cells["Path"].Value.ToString();
+                string name = this.dataGridView1.SelectedRows[0].Cells["Name"].Value.ToString();
+                path = path.Substring(path.IndexOf('\\'));
+                Folder fol = NodeSearch(path);
+                CurrentClient.Cart.Add((Product)fol.ElementsList.Find(e => e.Name == name));
+                XmlSerialzation.ClientSerialzation();
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void cartStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CartForm cf = new CartForm(CurrentClient);
+            cf.ShowDialog();
+            XmlSerialzation.ClientSerialzation();
         }
     }
 }

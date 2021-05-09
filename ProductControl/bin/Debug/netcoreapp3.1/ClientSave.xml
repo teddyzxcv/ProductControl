@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ArrayOfClient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Client>
+    <Name>Pan</Name>
+    <PhoneNumber>1234</PhoneNumber>
+    <Email>gr@gmail.com</Email>
+    <Password>asdf</Password>
+    <Cart>
+      <Product>
+        <Name>Pen black</Name>
+        <FullPath>Warehouse\Pens</FullPath>
+        <Article>001</Article>
+        <Price>30</Price>
+      </Product>
+    </Cart>
+  </Client>
+  <Client>
+    <Name>admin</Name>
+    <PhoneNumber>123</PhoneNumber>
+    <Email>admin</Email>
+    <Password>admin</Password>
+    <Cart />
+  </Client>
+</ArrayOfClient>
