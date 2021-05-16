@@ -1,12 +1,13 @@
 <ProductControl>
   <Warehouse>
-    <Folder Name="Pens" Type="ProductFolder">
-      <Product Name="Pen black" Article="001" Price="30" Remain="200" PathToPic="default-image.png" Description="is black" FullPath="Warehouse\Pens" />
-      <Product Name="Pen Blue" Article="002" Price="31" Remain="199" PathToPic="default-image.png" Description="Is blue" FullPath="Warehouse\Pens" />
+    <Folder Name="Pen" Type="ProductFolder">
+      <Product Name="Blue pen" Article="001" Price="53" Remain="133" PathToPic="default-image.png" Description="Blue pen blue" FullPath="Warehouse\Pen" />
+      <Product Name="Red pen" Article="002" Price="53" Remain="99" PathToPic="default-image.png" Description="Red pen red" FullPath="Warehouse\Pen" />
+      <Product Name="Black pen" Article="003" Price="56" Remain="144" PathToPic="default-image.png" Description="Black pen black" FullPath="Warehouse\Pen" />
     </Folder>
-    <Folder Name="Notebooks" Type="ProductFolder">
-      <Product Name="Notebook cell" Article="003" Price="50" Remain="123" PathToPic="default-image.png" Description="Cells" FullPath="Warehouse\Notebooks" />
-      <Product Name="Notebook line" Article="004" Price="56" Remain="78" PathToPic="default-image.png" Description="Lines" FullPath="Warehouse\Notebooks" />
+    <Folder Name="Notebook" Type="ProductFolder">
+      <Product Name="Line notebook" Article="004" Price="155" Remain="200" PathToPic="default-image.png" Description="Line book line" FullPath="Warehouse\Notebook" />
+      <Product Name="Cell notebook" Article="005" Price="156" Remain="13" PathToPic="default-image.png" Description="Cell book cell" FullPath="Warehouse\Notebook" />
     </Folder>
   </Warehouse>
 </ProductControl>

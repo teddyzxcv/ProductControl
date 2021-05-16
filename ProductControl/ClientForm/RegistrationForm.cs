@@ -31,7 +31,11 @@ namespace ProductControl.ClientForm
                     throw new ArgumentException("You must input something in every textbox!");
                 if (password1 != password2)
                     throw new ArgumentException("Password must match the comfirm password!");
-                Client client = new Client(name, number, email, password1);
+                Client client = new Client();
+                if (this.checkBox2.Checked)
+                    client = new Client(name, number, email, password1, true);
+                else
+                    client = new Client(name, number, email, password1, false);
                 if (Client.AllClients.Contains(client))
                     throw new ArgumentException("User with this email is already exist!");
                 Client.AllClients.Add(client);

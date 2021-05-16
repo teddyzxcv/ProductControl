@@ -33,13 +33,20 @@ namespace ProductControl
         /// <param name="parent"></param>
         static void CreateFolder(string name, Folder parent)
         {
-            Folder folder = new Folder(name, parent);
-            if (parent == null)
-                WareHouse.Add(folder);
-            else
+            try
             {
-                parent.ElementsList.Add(folder);
-                parent.Type = Folder.FolderType.FolderFolder;
+                Folder folder = new Folder(name, parent);
+                if (parent == null)
+                    WareHouse.Add(folder);
+                else
+                {
+                    parent.ElementsList.Add(folder);
+                    parent.Type = Folder.FolderType.FolderFolder;
+                }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         /// <summary>
@@ -49,14 +56,21 @@ namespace ProductControl
         /// <param name="fol"></param>
         private void RefreshFolder(TreeNodeCollection nodes, Folder fol)
         {
-            if (fol.Type == Folder.FolderType.FolderFolder)
-                for (int i = 0; i < fol.ElementsList.Count; i++)
-                {
-                    TreeNode node = new TreeNode(fol.ElementsList[i].Name);
-                    if (((Folder)(fol.ElementsList[i])).ElementsList.Count != 0)
-                        RefreshFolder(node.Nodes, (Folder)fol.ElementsList[i]);
-                    nodes.Add(node);
-                }
+            try
+            {
+                if (fol.Type == Folder.FolderType.FolderFolder)
+                    for (int i = 0; i < fol.ElementsList.Count; i++)
+                    {
+                        TreeNode node = new TreeNode(fol.ElementsList[i].Name);
+                        if (((Folder)(fol.ElementsList[i])).ElementsList.Count != 0)
+                            RefreshFolder(node.Nodes, (Folder)fol.ElementsList[i]);
+                        nodes.Add(node);
+                    }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Find treenode by full path.
@@ -67,44 +81,59 @@ namespace ProductControl
         /// <returns></returns>
         public static TreeNode FindTreeNodeByFullPath(TreeNodeCollection collection, string fullPath, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            var foundNode = collection.Cast<TreeNode>().FirstOrDefault(tn => string.Equals(tn.FullPath, fullPath, comparison));
-            if (null == foundNode)
+            try
             {
-                foreach (var childNode in collection.Cast<TreeNode>())
+                var foundNode = collection.Cast<TreeNode>().FirstOrDefault(tn => string.Equals(tn.FullPath, fullPath, comparison));
+                if (null == foundNode)
                 {
-                    var foundChildNode = FindTreeNodeByFullPath(childNode.Nodes, fullPath, comparison);
-                    if (null != foundChildNode)
+                    foreach (var childNode in collection.Cast<TreeNode>())
                     {
-                        return foundChildNode;
+                        var foundChildNode = FindTreeNodeByFullPath(childNode.Nodes, fullPath, comparison);
+                        if (null != foundChildNode)
+                        {
+                            return foundChildNode;
+                        }
                     }
                 }
+                return foundNode;
             }
-            return foundNode;
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return new TreeNode();
         }
         /// <summary>
         /// Refresh tree.
         /// </summary>
         private void RefreshTree()
         {
-            var savestate = this.treeView1.Nodes.GetExpansionState();
-            string selectednodepath = null;
-            if (this.treeView1.SelectedNode != null)
-                selectednodepath = this.treeView1.SelectedNode.FullPath;
-            this.treeView1.Nodes.Clear();
-            this.treeView1.Nodes.Add("Warehouse");
-            for (int i = 0; i < WareHouse.Count; i++)
+            try
             {
-                TreeNode node = new TreeNode(WareHouse[i].Name);
-                if (WareHouse[i].ElementsList.Count != 0)
-                    RefreshFolder(node.Nodes, WareHouse[i]);
-                this.treeView1.Nodes[0].Nodes.Add(node);
+                var savestate = this.treeView1.Nodes.GetExpansionState();
+                string selectednodepath = null;
+                if (this.treeView1.SelectedNode != null)
+                    selectednodepath = this.treeView1.SelectedNode.FullPath;
+                this.treeView1.Nodes.Clear();
+                this.treeView1.Nodes.Add("Warehouse");
+                for (int i = 0; i < WareHouse.Count; i++)
+                {
+                    TreeNode node = new TreeNode(WareHouse[i].Name);
+                    if (WareHouse[i].ElementsList.Count != 0)
+                        RefreshFolder(node.Nodes, WareHouse[i]);
+                    this.treeView1.Nodes[0].Nodes.Add(node);
+                }
+                this.treeView1.Nodes.SetExpansionState(savestate);
+                if (selectednodepath != null)
+                {
+                    var sn = FindTreeNodeByFullPath(this.treeView1.Nodes, selectednodepath);
+                    if (sn != null)
+                        sn.Expand();
+                }
             }
-            this.treeView1.Nodes.SetExpansionState(savestate);
-            if (selectednodepath != null)
+            catch (Exception er)
             {
-                var sn = FindTreeNodeByFullPath(this.treeView1.Nodes, selectednodepath);
-                if (sn != null)
-                    sn.Expand();
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         /// <summary>
@@ -114,29 +143,44 @@ namespace ProductControl
         /// <returns></returns>
         public Folder NodeSearch(string fullpath)
         {
-            List<string> path = fullpath.Split('\\').ToList();
-            if (path.Count == 1)
-                return null;
-            Elements targetFolder = WareHouse.Find(e => e.Name == path[1]);
-            for (int i = 1; i < path.Count - 1; i++)
+            try
             {
-                targetFolder = ((Folder)(targetFolder)).ElementsList.Find(e => e.Name == path[i + 1]);
+                List<string> path = fullpath.Split('\\').ToList();
+                if (path.Count == 1)
+                    return null;
+                Elements targetFolder = WareHouse.Find(e => e.Name == path[1]);
+                for (int i = 1; i < path.Count - 1; i++)
+                {
+                    targetFolder = ((Folder)(targetFolder)).ElementsList.Find(e => e.Name == path[i + 1]);
+                }
+                Folder output = (Folder)targetFolder;
+                return output;
             }
-            Folder output = (Folder)targetFolder;
-            return output;
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return new Folder();
         }
         /// <summary>
         /// Initialize.
         /// </summary>
         public Form1()
         {
-            InitializeComponent();
-            WareHouse = saveStructure.LoadWarehouseList();
-            RefreshTree();
-            this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
-            this.dataGridView1.DefaultCellStyle.BackColor = Color.White;
-            this.dataGridView1.Rows.Clear();
+            try
+            {
+                InitializeComponent();
+                WareHouse = saveStructure.LoadWarehouseList();
+                RefreshTree();
+                this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
+                this.dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
+                this.dataGridView1.DefaultCellStyle.BackColor = Color.White;
+                this.dataGridView1.Rows.Clear();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Create new Folder.
@@ -279,7 +323,14 @@ namespace ProductControl
         /// <param name="e"></param>
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            RefreshDataGrid(this.treeView1.SelectedNode.FullPath);
+            try
+            {
+                RefreshDataGrid(this.treeView1.SelectedNode.FullPath);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Refresh data grid.
@@ -287,38 +338,45 @@ namespace ProductControl
         /// <param name="selectednodepath"></param>
         private void RefreshDataGrid(string selectednodepath)
         {
-            this.dataGridView1.DataSource = saveStructure.DefaultDataTable();
-            if (this.treeView1.SelectedNode != null)
+            try
             {
-                var folder = NodeSearch(selectednodepath);
-                if (folder != null)
-                    this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
-                else
+                this.dataGridView1.DataSource = saveStructure.DefaultDataTable();
+                if (this.treeView1.SelectedNode != null)
                 {
-                    this.dataGridView1.DataSource = saveStructure.ProcessAllProductFolder(WareHouse);
+                    var folder = NodeSearch(selectednodepath);
+                    if (folder != null)
+                        this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
+                    else
+                    {
+                        this.dataGridView1.DataSource = saveStructure.ProcessAllProductFolder(WareHouse);
+                    }
+                    this.dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    this.dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    // if (folder.Type == Folder.FolderType.ProductFolder)
+                    //     {
+                    //         this.dataGridView1.Visible = true;
+                    //         this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
+                    //     }
+                    //     else
+                    //     {
+                    //         this.dataGridView1.Visible = false;
+                    //     }
+                    // else
+                    //     this.dataGridView1.Visible = false;
                 }
-                this.dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                this.dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                // if (folder.Type == Folder.FolderType.ProductFolder)
-                //     {
-                //         this.dataGridView1.Visible = true;
-                //         this.dataGridView1.DataSource = saveStructure.ProcessProductFolder(folder);
-                //     }
-                //     else
-                //     {
-                //         this.dataGridView1.Visible = false;
-                //     }
-                // else
-                //     this.dataGridView1.Visible = false;
+                if (selectednodepath != null)
+                {
+                    var sn = FindTreeNodeByFullPath(this.treeView1.Nodes, selectednodepath);
+                    if (sn != null)
+                        this.treeView1.SelectedNode = sn;
+                }
+                this.dataGridView1.Refresh();
+                this.dataGridView1.Sort(this.dataGridView1.Columns["Name"], ListSortDirection.Ascending);
             }
-            if (selectednodepath != null)
+            catch (Exception er)
             {
-                var sn = FindTreeNodeByFullPath(this.treeView1.Nodes, selectednodepath);
-                if (sn != null)
-                    this.treeView1.SelectedNode = sn;
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            this.dataGridView1.Refresh();
-            this.dataGridView1.Sort(this.dataGridView1.Columns["Name"], ListSortDirection.Ascending);
         }
         /// <summary>
         /// Change product name.
@@ -385,21 +443,28 @@ namespace ProductControl
         /// <param name="e"></param>
         private void ToCSVStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ToCSVControlerForm tccf = new ToCSVControlerForm();
-            if (tccf.ShowDialog() == DialogResult.Cancel)
-                return;
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "CSV Files (*.csv)|*.csv";
-            var result = sfd.ShowDialog();
-            if (result == DialogResult.OK)
+            try
             {
-                StreamWriter sw = new StreamWriter(sfd.FileName, false);
-                sw.WriteLine("FullPath;Name;Article;Remaining");
-                for (int i = 0; i < WareHouse.Count; i++)
+                ToCSVControlerForm tccf = new ToCSVControlerForm();
+                if (tccf.ShowDialog() == DialogResult.Cancel)
+                    return;
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "CSV Files (*.csv)|*.csv";
+                var result = sfd.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    saveStructure.ToCSV(WareHouse[i], sfd.FileName, tccf.N, sw);
+                    StreamWriter sw = new StreamWriter(sfd.FileName, false);
+                    sw.WriteLine("FullPath;Name;Article;Remaining");
+                    for (int i = 0; i < WareHouse.Count; i++)
+                    {
+                        saveStructure.ToCSV(WareHouse[i], sfd.FileName, tccf.N, sw);
+                    }
+                    sw.Close();
                 }
-                sw.Close();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         /// <summary>
@@ -409,12 +474,19 @@ namespace ProductControl
         /// <param name="e"></param>
         private void newStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var ms = MessageBox.Show("Do you want save this warehouse list before create new one?", "Save the warehouse", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (ms == DialogResult.Yes)
-                saveStructure.SaveXML();
-            WareHouse = new List<Folder>();
-            saveStructure.SaveWarehouseList(WareHouse);
-            RefreshTree();
+            try
+            {
+                var ms = MessageBox.Show("Do you want save this warehouse list before create new one?", "Save the warehouse", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (ms == DialogResult.Yes)
+                    saveStructure.SaveXML();
+                WareHouse = new List<Folder>();
+                saveStructure.SaveWarehouseList(WareHouse);
+                RefreshTree();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Save warehouse.
@@ -423,7 +495,14 @@ namespace ProductControl
         /// <param name="e"></param>
         private void saveStripMenuItem1_Click(object sender, EventArgs e)
         {
-            saveStructure.SaveXML();
+            try
+            {
+                saveStructure.SaveXML();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Open warehouse.
@@ -432,14 +511,21 @@ namespace ProductControl
         /// <param name="e"></param>
         private void OpenStripMenuItem1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "XML Files (*.xml)|*.xml";
-            ofd.ShowDialog();
-            if (ofd.FileName == string.Empty)
-                return;
-            File.Copy(ofd.FileName, saveStructure.PathToSaving, true);
-            WareHouse = saveStructure.LoadWarehouseList();
-            RefreshTree();
+            try
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "XML Files (*.xml)|*.xml";
+                ofd.ShowDialog();
+                if (ofd.FileName == string.Empty)
+                    return;
+                File.Copy(ofd.FileName, saveStructure.PathToSaving, true);
+                WareHouse = saveStructure.LoadWarehouseList();
+                RefreshTree();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Random warehouse.
@@ -448,39 +534,55 @@ namespace ProductControl
         /// <param name="e"></param>
         private void randomStripMenuItem1_Click(object sender, EventArgs e)
         {
-            RandomForm rf = new RandomForm();
-            rf.ShowDialog();
-            WareHouse = saveStructure.GenerateRandomList(rf.nFolder, rf.nProduct, rf.nLevel);
-            RefreshTree();
-            saveStructure.SaveWarehouseList(WareHouse);
+            try
+            {
+                RandomForm rf = new RandomForm();
+                rf.ShowDialog();
+                WareHouse = saveStructure.GenerateRandomList(rf.nFolder, rf.nProduct, rf.nLevel);
+                RefreshTree();
+                saveStructure.SaveWarehouseList(WareHouse);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoginRegistrationForm lrf = new LoginRegistrationForm();
-            var result = lrf.ShowDialog();
-            if (result == DialogResult.OK)
+            try
             {
-                this.fileStripMenuItem1.Visible = false;
-                this.randomStripMenuItem1.Visible = false;
-                this.deleteStripMenuItem1.Visible = false;
-                this.changeNameStripMenuItem1.Visible = false;
-                this.newFolderStripMenuItem1.Visible = false;
-                this.newProductStripMenuItem1.Visible = false;
-                this.ToCSVStripMenuItem1.Visible = false;
-                IsAdmin = false;
-                this.dataGridView1.ContextMenuStrip = this.contextMenuStrip2;
-
-
+                LoginRegistrationForm lrf = new LoginRegistrationForm();
+                var result = lrf.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    this.fileStripMenuItem1.Visible = false;
+                    this.randomStripMenuItem1.Visible = false;
+                    this.deleteStripMenuItem1.Visible = false;
+                    this.changeNameStripMenuItem1.Visible = false;
+                    this.newFolderStripMenuItem1.Visible = false;
+                    this.newProductStripMenuItem1.Visible = false;
+                    this.ToCSVStripMenuItem1.Visible = false;
+                    this.clientsStripMenuItem1.Visible = false;
+                    IsAdmin = false;
+                    this.dataGridView1.ContextMenuStrip = this.contextMenuStrip2;
+                    this.Text = "User: " + CurrentClient.Name;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    IsAdmin = true;
+                    this.cartStripMenuItem1.Visible = false;
+                    this.Text = "Admin control";
+                }
+                else
+                {
+                    this.Close();
+                    return;
+                }
             }
-            else if (result == DialogResult.Yes)
+            catch (Exception er)
             {
-                IsAdmin = true;
-            }
-            else
-            {
-                this.Close();
-                return;
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -508,9 +610,48 @@ namespace ProductControl
 
         private void cartStripMenuItem1_Click(object sender, EventArgs e)
         {
-            CartForm cf = new CartForm(CurrentClient);
-            cf.ShowDialog();
-            XmlSerialzation.ClientSerialzation();
+            try
+            {
+                CartForm cf = new CartForm(CurrentClient);
+                cf.ShowDialog();
+                XmlSerialzation.ClientSerialzation();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void ordersStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OrderForm of = new OrderForm(IsAdmin, CurrentClient);
+                of.ShowDialog();
+                XmlSerialzation.ClientSerialzation();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void clientsStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AllClientsForm acf = new AllClientsForm();
+                acf.ShowDialog();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

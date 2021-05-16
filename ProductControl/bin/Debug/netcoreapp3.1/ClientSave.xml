@@ -1,24 +1,163 @@
 <?xml version="1.0"?>
 <ArrayOfClient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Client>
+    <IsAdmin>false</IsAdmin>
     <Name>Pan</Name>
     <PhoneNumber>1234</PhoneNumber>
     <Email>gr@gmail.com</Email>
     <Password>asdf</Password>
-    <Cart>
-      <Product>
-        <Name>Pen black</Name>
-        <FullPath>Warehouse\Pens</FullPath>
-        <Article>001</Article>
-        <Price>30</Price>
-      </Product>
-    </Cart>
+    <SerOrders>
+      <Order>
+        <Product>
+          <Name>Blue pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>001</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Blue pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>001</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Blue pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>001</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Red pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>002</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Red pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>002</Article>
+          <Price>53</Price>
+        </Product>
+        <Index>1656521068</Index>
+        <CreateTime>2021-05-15T20:25:30.4706379+03:00</CreateTime>
+        <Status>Payed Executed</Status>
+      </Order>
+      <Order>
+        <Product>
+          <Name>Red pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>002</Article>
+          <Price>53</Price>
+        </Product>
+        <Index>738956159</Index>
+        <CreateTime>2021-05-16T16:03:28.2163707+03:00</CreateTime>
+        <Status>None</Status>
+      </Order>
+    </SerOrders>
+    <Cart />
   </Client>
   <Client>
+    <IsAdmin>true</IsAdmin>
     <Name>admin</Name>
     <PhoneNumber>123</PhoneNumber>
     <Email>admin</Email>
     <Password>admin</Password>
+    <SerOrders />
+    <Cart />
+  </Client>
+  <Client>
+    <IsAdmin>false</IsAdmin>
+    <Name>1</Name>
+    <PhoneNumber>1</PhoneNumber>
+    <Email>1</Email>
+    <Password>1</Password>
+    <SerOrders>
+      <Order>
+        <Product>
+          <Name>Blue pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>001</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Cell notebook</Name>
+          <FullPath>Warehouse\Notebook</FullPath>
+          <Article>005</Article>
+          <Price>156</Price>
+        </Product>
+        <Index>223823454</Index>
+        <CreateTime>2021-05-15T20:21:10.1568636+03:00</CreateTime>
+        <Status>Payed Executed</Status>
+      </Order>
+      <Order>
+        <Product>
+          <Name>Black pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>003</Article>
+          <Price>56</Price>
+        </Product>
+        <Product>
+          <Name>Black pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>003</Article>
+          <Price>56</Price>
+        </Product>
+        <Product>
+          <Name>Black pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>003</Article>
+          <Price>56</Price>
+        </Product>
+        <Product>
+          <Name>Blue pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>001</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Blue pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>001</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Line notebook</Name>
+          <FullPath>Warehouse\Notebook</FullPath>
+          <Article>004</Article>
+          <Price>155</Price>
+        </Product>
+        <Product>
+          <Name>Line notebook</Name>
+          <FullPath>Warehouse\Notebook</FullPath>
+          <Article>004</Article>
+          <Price>155</Price>
+        </Product>
+        <Product>
+          <Name>Line notebook</Name>
+          <FullPath>Warehouse\Notebook</FullPath>
+          <Article>004</Article>
+          <Price>155</Price>
+        </Product>
+        <Product>
+          <Name>Line notebook</Name>
+          <FullPath>Warehouse\Notebook</FullPath>
+          <Article>004</Article>
+          <Price>155</Price>
+        </Product>
+        <Index>111744339</Index>
+        <CreateTime>2021-05-16T16:02:50.6610135+03:00</CreateTime>
+        <Status>None</Status>
+      </Order>
+    </SerOrders>
+    <Cart />
+  </Client>
+  <Client>
+    <IsAdmin>true</IsAdmin>
+    <Name>admin2</Name>
+    <PhoneNumber>1234</PhoneNumber>
+    <Email>admin2</Email>
+    <Password>admin</Password>
+    <SerOrders />
     <Cart />
   </Client>
 </ArrayOfClient>

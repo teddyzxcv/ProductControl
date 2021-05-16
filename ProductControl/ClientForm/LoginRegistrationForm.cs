@@ -33,20 +33,28 @@ namespace ProductControl
             {
                 string login = this.textBox1.Text;
                 string password = this.textBox2.Text;
-                if (login == "admin" && password == "admin")
-                {
-                    this.DialogResult = DialogResult.Yes;
-                    this.Close();
-                    return;
-                }
+
                 if (Client.AllClients.Select(e => e.Email).Contains(login))
                 {
                     if (Client.AllClients.Where(e => e.Email == login).First().Passoword == password)
                     {
-                        this.DialogResult = DialogResult.OK;
-                        Form1.CurrentClient = Client.AllClients.Where(e => e.Email == login).First();
-                        return;
+                        var user = Client.AllClients.Where(e => e.Email == login).First();
+                        if (user.IsAdmin)
+                        {
+                            this.DialogResult = DialogResult.Yes;
+                            Form1.CurrentClient = Client.AllClients.Where(e => e.Email == login).First();
+                            this.Close();
+                            return;
+                        }
+                        else
+                        {
+                            this.DialogResult = DialogResult.OK;
+                            Form1.CurrentClient = Client.AllClients.Where(e => e.Email == login).First();
+                            return;
+                        }
                     }
+                    else
+                        throw new ArgumentException("Wrong password!");
                 }
                 else
                 {

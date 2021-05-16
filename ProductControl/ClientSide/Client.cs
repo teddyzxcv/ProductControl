@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 using ProductControl.ClientSide;
 using ProductControl.ProductLib;
+using System.Linq;
 
 namespace ProductControl
 {
@@ -12,6 +13,10 @@ namespace ProductControl
     public class Client
 
     {
+        [XmlElement("IsAdmin")]
+        public bool IsAdmin;
+
+        [XmlIgnore]
         public static List<Client> AllClients = new List<Client>();
         [XmlElement("Name")]
         public string Name;
@@ -24,21 +29,42 @@ namespace ProductControl
         [XmlElement("Password")]
 
         public string Passoword;
-        [XmlElement("Orders")]
-        public List<Order> Orders = new List<Order>();
+        [XmlArrayItem("Order")]
+        public List<Order> SerOrders = new List<Order>();
         [XmlArrayItem("Product")]
         public List<Product> Cart = new List<Product>();
+        [XmlIgnore]
+        public List<Order> Orders
+        {
+            get
+            {
+                foreach (var item in SerOrders)
+                {
+                    item.OrderClient = this;
+                }
+                return SerOrders;
+            }
+        }
+        public double AllPriceAmount
+        {
+            get
+            {
+                return this.Orders.Select(e => e.OrderCost).Sum();
+            }
+        }
 
         public Client()
         {
 
         }
-        public Client(string name, string phoneNumber, string email, string password)
+        public Client(string name, string phoneNumber, string email, string password, bool isadmin)
         {
             Name = name;
             this.PhoneNumber = phoneNumber;
             this.Email = email;
             this.Passoword = password;
+            this.IsAdmin = isadmin;
+
         }
         public override bool Equals(object obj)
         {

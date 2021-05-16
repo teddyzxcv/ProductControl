@@ -41,6 +41,8 @@ namespace ProductControl
             this.ToCSVStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.randomStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cartStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ordersStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.clientsStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -67,7 +69,9 @@ namespace ProductControl
             this.newProductStripMenuItem1,
             this.ToCSVStripMenuItem1,
             this.randomStripMenuItem1,
-            this.cartStripMenuItem1});
+            this.cartStripMenuItem1,
+            this.ordersStripMenuItem1,
+            this.clientsStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(870, 25);
@@ -139,6 +143,20 @@ namespace ProductControl
             this.cartStripMenuItem1.Size = new System.Drawing.Size(44, 21);
             this.cartStripMenuItem1.Text = "Cart";
             this.cartStripMenuItem1.Click += new System.EventHandler(this.cartStripMenuItem1_Click);
+            // 
+            // ordersStripMenuItem1
+            // 
+            this.ordersStripMenuItem1.Name = "ordersStripMenuItem1";
+            this.ordersStripMenuItem1.Size = new System.Drawing.Size(61, 21);
+            this.ordersStripMenuItem1.Text = "Orders";
+            this.ordersStripMenuItem1.Click += new System.EventHandler(this.ordersStripMenuItem1_Click);
+            // 
+            // clientsStripMenuItem1
+            // 
+            this.clientsStripMenuItem1.Name = "clientsStripMenuItem1";
+            this.clientsStripMenuItem1.Size = new System.Drawing.Size(58, 21);
+            this.clientsStripMenuItem1.Text = "Clients";
+            this.clientsStripMenuItem1.Click += new System.EventHandler(this.clientsStripMenuItem1_Click);
             // 
             // splitContainer1
             // 
@@ -266,6 +284,8 @@ namespace ProductControl
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem addStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem cartStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ordersStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem clientsStripMenuItem1;
     }
 }
 

@@ -57,6 +57,10 @@ namespace ProductControl.ProductLib
             this.Parent = parent;
             Type = type;
         }
+        public Folder()
+        {
+
+        }
     }
 }
 

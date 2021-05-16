@@ -53,5 +53,21 @@ namespace ProductControl.ClientForm
                 RefreshList();
             }
         }
+
+        private void makeOrderStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Order order = new Order();
+            order.OrderClient = CurrentClient;
+            order.Index = Math.Abs(order.CreateTime.GetHashCode());
+            while (Order.AllOrder.Select(e => e.Index).Contains(order.Index))
+            {
+                order.Index++;
+            }
+            order.Products = CurrentClient.Cart.ToList();
+            CurrentClient.Orders.Add(order);
+            CurrentClient.Cart.Clear();
+            RefreshList();
+            MessageBox.Show("Order created successfully!", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
