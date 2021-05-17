@@ -8,6 +8,10 @@ namespace ProductControl.ClientSide
 {
     public class XmlSerialzation
     {
+
+        /// <summary>
+        /// Serialzation clients.
+        /// </summary>
         public static void ClientSerialzation()
         {
             FileStream fs = new FileStream("ClientSave.xml", FileMode.Create, FileAccess.ReadWrite);
@@ -15,6 +19,10 @@ namespace ProductControl.ClientSide
             serializer.Serialize(fs, Client.AllClients);
             fs.Close();
         }
+        /// <summary>
+        /// Deserialization clients.
+        /// </summary>
+        /// <returns></returns>
         public static List<Client> DeserializationClient()
         {
             FileStream fs = new FileStream("ClientSave.xml", FileMode.Open, FileAccess.Read);

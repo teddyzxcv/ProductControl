@@ -18,7 +18,11 @@ namespace ProductControl
             InitializeComponent();
             Client.AllClients = XmlSerialzation.DeserializationClient();
         }
-
+        /// <summary>
+        /// Open registration form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             RegistrationForm rg = new RegistrationForm();
@@ -26,7 +30,11 @@ namespace ProductControl
                 MessageBox.Show("User create successful", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
-
+        /// <summary>
+        /// Login check.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             try

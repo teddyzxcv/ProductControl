@@ -547,7 +547,11 @@ namespace ProductControl
                 MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Load in Form1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -586,7 +590,11 @@ namespace ProductControl
             }
 
         }
-
+        /// <summary>
+        /// Add product.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
@@ -607,7 +615,11 @@ namespace ProductControl
                 return;
             }
         }
-
+        /// <summary>
+        /// Open cart.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cartStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
@@ -626,7 +638,11 @@ namespace ProductControl
         {
 
         }
-
+        /// <summary>
+        /// Open Orders.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ordersStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
@@ -640,7 +656,11 @@ namespace ProductControl
                 MessageBox.Show(er.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Open Clients.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void clientsStripMenuItem1_Click(object sender, EventArgs e)
         {
             try

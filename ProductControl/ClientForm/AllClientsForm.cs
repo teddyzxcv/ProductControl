@@ -19,7 +19,11 @@ namespace ProductControl.ClientForm
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// All Client load.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AllClientsForm_Load(object sender, EventArgs e)
         {
             this.listBox1.Items.Clear();
@@ -32,12 +36,18 @@ namespace ProductControl.ClientForm
             }
 
         }
-
+        /// <summary>
+        /// Refresh list after select.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshListView();
         }
-
+        /// <summary>
+        /// Refresh listview.
+        /// </summary>
         void RefreshListView()
         {
             this.listView1.Clear();
@@ -55,7 +65,11 @@ namespace ProductControl.ClientForm
             this.listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             this.listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
+        /// <summary>
+        /// Call back refresh.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void callbackStripMenuItem1_Click(object sender, EventArgs e)
         {
             CallBackForm cbf = new CallBackForm();
@@ -76,7 +90,11 @@ namespace ProductControl.ClientForm
                 }
             }
         }
-
+        /// <summary>
+        /// Pay order.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void orderpayedStripMenuItem1_Click(object sender, EventArgs e)
         {
             RankForm rf = new RankForm();

@@ -17,7 +17,11 @@ namespace ProductControl.ClientForm
             this.textBox4.PasswordChar = '*';
             this.textBox5.PasswordChar = '*';
         }
-
+        /// <summary>
+        /// Input registration data.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             string name = this.textBox1.Text;

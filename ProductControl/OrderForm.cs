@@ -23,7 +23,11 @@ namespace ProductControl
             if (!IsAdmin)
                 this.changetableStripMenuItem1.Visible = false;
         }
-
+        /// <summary>
+        /// Initiazation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OrderForm_Load(object sender, EventArgs e)
         {
             if (CurrentClient.IsAdmin)
@@ -38,6 +42,9 @@ namespace ProductControl
             }
             RefreshList();
         }
+        /// <summary>
+        /// Refresh order list.
+        /// </summary>
         private void RefreshList()
         {
             this.listView1.Clear();
@@ -77,7 +84,11 @@ namespace ProductControl
         {
 
         }
-
+        /// <summary>
+        /// Payed status.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void payStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (this.listView1.SelectedItems.Count != 1)
@@ -92,7 +103,11 @@ namespace ProductControl
                 RefreshList();
             }
         }
-
+        /// <summary>
+        /// Processed status.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void processedStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (this.listView1.SelectedItems.Count != 1)
@@ -112,7 +127,11 @@ namespace ProductControl
                 RefreshList();
             }
         }
-
+        /// <summary>
+        /// Shiped status.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void shipedStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (this.listView1.SelectedItems.Count != 1)
@@ -132,7 +151,11 @@ namespace ProductControl
                 RefreshList();
             }
         }
-
+        /// <summary>
+        /// Execute status.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void executedStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (this.listView1.SelectedItems.Count != 1)
@@ -152,7 +175,11 @@ namespace ProductControl
                 RefreshList();
             }
         }
-
+        /// <summary>
+        /// Change table.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void changetableStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (this.changetableStripMenuItem1.Text == "Show Active Orders")

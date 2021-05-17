@@ -14,7 +14,11 @@ namespace ProductControl.ClientForm
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Input data for order.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             try

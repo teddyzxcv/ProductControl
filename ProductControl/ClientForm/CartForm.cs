@@ -22,7 +22,9 @@ namespace ProductControl.ClientForm
         {
             RefreshList();
         }
-
+        /// <summary>
+        /// Refresh list.
+        /// </summary>
         private void RefreshList()
         {
             this.listView1.Clear();
@@ -40,7 +42,11 @@ namespace ProductControl.ClientForm
             this.listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             this.listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
+        /// <summary>
+        /// Delete product from cart.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (this.listView1.SelectedItems.Count != 1)
@@ -53,7 +59,11 @@ namespace ProductControl.ClientForm
                 RefreshList();
             }
         }
-
+        /// <summary>
+        /// Make order button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void makeOrderStripMenuItem1_Click(object sender, EventArgs e)
         {
             Order order = new Order();
