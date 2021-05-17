@@ -13,6 +13,8 @@ namespace ProductControl.ClientForm
     {
         public static double RankPrice = 0;
         static List<Client> Clients = new List<Client>();
+        public static DateTime Date = DateTime.Now;
+        public static string CurrentArticle;
         public AllClientsForm()
         {
             InitializeComponent();
@@ -59,7 +61,19 @@ namespace ProductControl.ClientForm
             CallBackForm cbf = new CallBackForm();
             if (cbf.ShowDialog() == DialogResult.Yes)
             {
-
+                this.listView1.Clear();
+                Clients = Clients.Where(e => e.Orders.Exists(e => e.CreateTime.Date == Date.Date)).ToList();
+                Clients = Client.AllClients.Where(e => e.Orders.Where(e => e.CreateTime.Date == Date.Date).ToList().Exists(e => e.Products.Exists(e => e.Article == CurrentArticle))).ToList();
+                if (Clients.Count != 0)
+                {
+                    this.listBox1.DataSource = Clients.Select(e => e.Name).ToList();
+                    this.listBox1.SelectedIndex = 0;
+                    RefreshListView();
+                }
+                else
+                {
+                    this.listBox1.DataSource = new List<string>();
+                }
             }
         }
 
@@ -77,6 +91,11 @@ namespace ProductControl.ClientForm
                     this.listBox1.SelectedIndex = 0;
                     RefreshListView();
                 }
+                else
+                {
+                    this.listBox1.DataSource = new List<string>();
+                }
+
             }
         }
     }

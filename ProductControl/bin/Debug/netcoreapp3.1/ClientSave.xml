@@ -146,7 +146,24 @@
         </Product>
         <Index>111744339</Index>
         <CreateTime>2021-05-16T16:02:50.6610135+03:00</CreateTime>
-        <Status>None</Status>
+        <Status>Payed</Status>
+      </Order>
+      <Order>
+        <Product>
+          <Name>Blue pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>001</Article>
+          <Price>53</Price>
+        </Product>
+        <Product>
+          <Name>Black pen</Name>
+          <FullPath>Warehouse\Pen</FullPath>
+          <Article>003</Article>
+          <Price>56</Price>
+        </Product>
+        <Index>1204785174</Index>
+        <CreateTime>2021-05-17T13:40:18.0343087+03:00</CreateTime>
+        <Status>Payed</Status>
       </Order>
     </SerOrders>
     <Cart />
